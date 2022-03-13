@@ -1,5 +1,5 @@
 const path = require("path");
-const { capitalizeFirstLetter } = require("./utils");
+const { capitalizeFirstLetter } = require("../utils");
 const fs = require("fs").promises;
 
 const endpointCreator = (entity) => {
@@ -161,6 +161,13 @@ const createFile = async (entity) => {
     console.log("Erreur lors de la création du fichier", e);
   }
 };
+
+const myArgs = process.argv.slice(2);
+if (myArgs.length === 0) {
+  console.log("Vous avez oublié le nom de l'entité.");
+} else {
+  createFile(myArgs[0]);
+}
 
 module.exports = {
   createFile,
