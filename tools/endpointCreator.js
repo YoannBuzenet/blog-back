@@ -1,7 +1,10 @@
 const path = require("path");
+const { capitalizeFirstLetter } = require("./utils");
 const fs = require("fs").promises;
 
 const endpointCreator = (entity) => {
+  const capitalizedEntity = capitalizeFirstLetter(entity);
+
   return `const path = require("path");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
@@ -16,11 +19,11 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const themes = await db.Theme.findAll();
+        const ${entity}s = await db.${capitalizedEntity}.findAll();
 
-        reply.code(200).send(themes);
+        reply.code(200).send(${entity}s);
       } catch (error) {
-        logger.log("error", "Error while searching for all Themes :" + error);
+        logger.log("error", "Error while searching for all ${capitalizedEntity}s :" + error);
         reply.code(500).send(error);
       }
       return;
@@ -34,14 +37,14 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const theme = await db.Theme.findOne({
+        const ${entity} = await db.${capitalizedEntity}.findOne({
           where: {
             id: req.params.id,
           },
         });
-        reply.code(200).send(theme);
+        reply.code(200).send(${entity});
       } catch (error) {
-        logger.log("error", \`Error while searching for all Themes :" +error);
+        logger.log("error", "Error while searching for all ${capitalizedEntity}s :" +error);
         reply.code(500).send(error);
       }
 
@@ -63,7 +66,7 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
-      const theme = await db.Theme.findOne({
+      const ${entity} = await db.${capitalizedEntity}.findOne({
         where: {
           id: req.params.id,
         },
@@ -72,16 +75,16 @@ module.exports = function (fastify, opts, done) {
       try {
         // change object, save it
         for (const prop in req.body) {
-          theme[prop] = req.body[prop];
+          ${entity}[prop] = req.body[prop];
         }
 
-        const savedTheme = await theme.save();
+        const saved${capitalizedEntity} = await ${entity}.save();
 
-        reply.code(200).send(savedTheme);
+        reply.code(200).send(${capitalizedEntity});
         return;
       } catch (e) {
-        logger.log("error", \`Error while searching for  Theme : "+e);
-        reply.code(500).send("Error when editing a theme");
+        logger.log("error", "Error while searching for${capitalizedEntity} : "+e);
+        reply.code(500).send("Error when editing a ${entity}");
       }
     }
   );
@@ -100,17 +103,17 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const newTheme = {
+        const new${capitalizedEntity} = {
           name: req.body.name,
         };
 
-        const savedTheme = await db.Theme.create(newTheme);
+        const saved${capitalizedEntity} = await db.${capitalizedEntity}.create(new${capitalizedEntity});
 
         reply.code(200).send(savedTheme);
         return;
       } catch (e) {
-        logger.log("error", "Error while creating a Theme :" +e);
-        reply.code(500).send("Error when creating a theme");
+        logger.log("error", "Error while creating a ${capitalizedEntity} :" +e);
+        reply.code(500).send("Error when creating a ${entity}");
       }
       return;
     }
@@ -124,7 +127,7 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
-      const theme = await db.Theme.findOne({
+      const ${entity} = await db.${capitalizedEntity}.findOne({
         where: {
           id: req.params.id,
         },
@@ -132,13 +135,13 @@ module.exports = function (fastify, opts, done) {
 
       try {
         //Delete
-        const deletedTheme = await theme.destroy();
-        reply.code(200).send(deletedTheme.dataValues);
+        const deleted${capitalizedEntity} = await ${entity}.destroy();
+        reply.code(200).send(deleted${capitalizedEntity}.dataValues);
 
         return;
       } catch (e) {
-        logger.log("error", "Error while deleting theme :" +e);
-        reply.code(500).send("Error when editing a theme");
+        logger.log("error", "Error while deleting ${entity} :" +e);
+        reply.code(500).send("Error when editing a ${entity}");
       }
     }
   );
