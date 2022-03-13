@@ -1,4 +1,7 @@
-export const pathCreator = (pathName) => {
+const path = require("path");
+const fs = require("fs").promises;
+
+const endpointCreator = (entity) => {
   return `const path = require("path");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
@@ -144,4 +147,18 @@ module.exports = function (fastify, opts, done) {
 };
 
 `;
+};
+
+const createFile = async (entity) => {
+  //Juste créer le ficher avec node, checker qu'il y a pas d'erreurs
+  try {
+    const data = endpointCreator(entity);
+    const file = await fs.writeFile(`${entity}.js`, data, "utf8");
+  } catch (e) {
+    console.log("Erreur lors de la création du fichier", e);
+  }
+};
+
+module.exports = {
+  createFile,
 };
