@@ -8,9 +8,9 @@ fastify.register(require("fastify-cors"), {
   // https://github.com/fastify/fastify-cors
 });
 
-fastify.register(require("./routes/web_structure/webStructure.js"), {
-  prefix: "/api/webStructure/websiteDisplay",
-});
+// fastify.register(require("./routes/web_structure/webStructure.js"), {
+//   prefix: "/api/webStructure/websiteDisplay",
+// });
 
 // Loading debug env variables
 if (process.env.NODE_ENV !== "production") {
@@ -31,9 +31,9 @@ if (process.env.NODE_ENV !== "production") {
 // Loading debug routes
 if (process.env.NODE_ENV !== "production") {
   console.log("Loading debug routes into the app");
-  fastify.register(require("./routes/debug_routes/test_DB.js"), {
-    prefix: "/api/test/DB",
-  });
+  // fastify.register(require("./routes/debug_routes/test_DB.js"), {
+  //   prefix: "/api/test/DB",
+  // });
 }
 
 // Run the server!
