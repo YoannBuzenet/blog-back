@@ -8,9 +8,9 @@ fastify.register(require("fastify-cors"), {
   // https://github.com/fastify/fastify-cors
 });
 
-// fastify.register(require("./routes/web_structure/webStructure.js"), {
-//   prefix: "/api/webStructure/websiteDisplay",
-// });
+fastify.register(require("./routes/entities/post"), {
+  prefix: "/api/entities/posts",
+});
 
 // Loading debug env variables
 if (process.env.NODE_ENV !== "production") {
