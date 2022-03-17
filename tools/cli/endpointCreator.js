@@ -167,6 +167,7 @@ if (myArgs.length === 0) {
   console.log("Vous avez oublié le nom de l'entité.");
 } else {
   createFile(myArgs[0]);
+  console.log("Endpoint crée à la racine!");
 }
 
 module.exports = {
