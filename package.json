@@ -4,7 +4,6 @@
   "description": "back-end for the blog",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "create:db:dev:windows": "SET NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate"
   },
   "keywords": [

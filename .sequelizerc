@@ -1,0 +1,19 @@
+const path = require("path");
+
+if (process.env.NODE_ENV !== "production") {
+  const result = require("dotenv").config({
+    path: path.resolve(process.cwd(), "./.env.local"),
+  });
+  if (result.error) {
+    throw (
+      ".env.local could not be found for non production environment loading. Did you create it ?" +
+      result.error
+    );
+  } else {
+    console.log("SUCCESS - .env.local file found.");
+  }
+}
+
+module.exports = {
+  config: path.resolve("config", "./config.js"),
+};
