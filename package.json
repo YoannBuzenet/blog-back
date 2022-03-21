@@ -4,7 +4,8 @@
   "description": "back-end for the blog",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "create:db:dev:windows": "SET NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate"
   },
   "keywords": [
     "blog",
@@ -14,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",
+    "dotenv-cli": "^5.0.0",
     "fastify": "^3.27.4",
     "fastify-cors": "^6.0.3",
     "mysql2": "^2.3.3",
