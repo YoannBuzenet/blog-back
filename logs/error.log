@@ -1,1 +1,2 @@
 2022-03-17T21:38:14.339Z error: Error while searching for all Posts :SequelizeAccessDeniedError: Access denied for user 'root'@'localhost' (using password: NO)
+2022-03-26T08:13:53.266Z error: Error while searching for all Posts :SequelizeAccessDeniedError: Access denied for user ''@'localhost' (using password: NO)

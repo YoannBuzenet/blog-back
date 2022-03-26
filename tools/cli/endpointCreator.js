@@ -2,6 +2,8 @@ const path = require("path");
 const { capitalizeFirstLetter } = require("../utils");
 const fs = require("fs").promises;
 
+// TODO -> ajouter la pagination aux endpoints all (overridable)
+
 const endpointCreator = (entity) => {
   const capitalizedEntity = capitalizeFirstLetter(entity);
 
