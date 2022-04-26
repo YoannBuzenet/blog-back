@@ -4,6 +4,7 @@
   "description": "back-end for the blog",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "create:db:dev:windows": "SET NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate"
   },
   "keywords": [
