@@ -4,7 +4,7 @@ const { logger } = require("./logger");
 const fastify = require("fastify")({ logger: { prettyPrint: true } });
 
 fastify.register(require("fastify-cors"), {
-  origin: true,
+  origin: "*",
   // https://github.com/fastify/fastify-cors
 });
 
