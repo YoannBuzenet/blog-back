@@ -19,6 +19,15 @@ module.exports = (sequelize, DataTypes) => {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
       avatarUrl: DataTypes.STRING,
+      rights: {
+        type: DataTypes.STRING,
+        validate: {
+          isIn: {
+            args: ["admin", "moderator", "noRights"],
+            msg: "Value must be admin, or moderator, or noRights",
+          },
+        },
+      },
     },
     {
       sequelize,
