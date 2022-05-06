@@ -37,7 +37,7 @@ module.exports = function (fastify, opts, done) {
         });
         reply.code(200).send(post);
       } catch (error) {
-        logger.log("error", "Error while searching for all Posts :" +error);
+        logger.log("error", "Error while searching for all Posts :" + error);
         reply.code(500).send(error);
       }
 
@@ -76,7 +76,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(Post);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching forPost : "+e);
+        logger.log("error", "Error while searching forPost : " + e);
         reply.code(500).send("Error when editing a post");
       }
     }
@@ -87,9 +87,12 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
+          required: ["title", "shortDescription", "content", "UserId"],
           properties: {
-            name: { type: "string" },
+            title: { type: "string" },
+            shortDescription: { type: "string" },
+            content: { type: "string" },
+            UserId: { type: "integer" },
           },
         },
       },
@@ -97,15 +100,18 @@ module.exports = function (fastify, opts, done) {
     async (req, reply) => {
       try {
         const newPost = {
-          name: req.body.name,
+          title: req.body.title,
+          shortDescription: req.body.shortDescription,
+          content: req.body.content,
+          UserId: req.body.UserId,
         };
 
         const savedPost = await db.Post.create(newPost);
 
-        reply.code(200).send(savedTheme);
+        reply.code(200).send(savedPost);
         return;
       } catch (e) {
-        logger.log("error", "Error while creating a Post :" +e);
+        logger.log("error", "Error while creating a Post :" + e);
         reply.code(500).send("Error when creating a post");
       }
       return;
@@ -133,7 +139,7 @@ module.exports = function (fastify, opts, done) {
 
         return;
       } catch (e) {
-        logger.log("error", "Error while deleting post :" +e);
+        logger.log("error", "Error while deleting post :" + e);
         reply.code(500).send("Error when editing a post");
       }
     }
@@ -141,4 +147,3 @@ module.exports = function (fastify, opts, done) {
 
   done();
 };
-

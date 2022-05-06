@@ -111,7 +111,7 @@ module.exports = function (fastify, opts, done) {
 
         const saved${capitalizedEntity} = await db.${capitalizedEntity}.create(new${capitalizedEntity});
 
-        reply.code(200).send(savedTheme);
+        reply.code(200).send(saved${capitalizedEntity});
         return;
       } catch (e) {
         logger.log("error", "Error while creating a ${capitalizedEntity} :" +e);

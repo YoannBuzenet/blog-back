@@ -37,7 +37,7 @@ module.exports = function (fastify, opts, done) {
         });
         reply.code(200).send(user);
       } catch (error) {
-        logger.log("error", "Error while searching for all Users :" +error);
+        logger.log("error", "Error while searching for all Users :" + error);
         reply.code(500).send(error);
       }
 
@@ -76,7 +76,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(User);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching forUser : "+e);
+        logger.log("error", "Error while searching forUser : " + e);
         reply.code(500).send("Error when editing a user");
       }
     }
@@ -102,10 +102,10 @@ module.exports = function (fastify, opts, done) {
 
         const savedUser = await db.User.create(newUser);
 
-        reply.code(200).send(savedTheme);
+        reply.code(200).send(savedUser);
         return;
       } catch (e) {
-        logger.log("error", "Error while creating a User :" +e);
+        logger.log("error", "Error while creating a User :" + e);
         reply.code(500).send("Error when creating a user");
       }
       return;
@@ -133,7 +133,7 @@ module.exports = function (fastify, opts, done) {
 
         return;
       } catch (e) {
-        logger.log("error", "Error while deleting user :" +e);
+        logger.log("error", "Error while deleting user :" + e);
         reply.code(500).send("Error when editing a user");
       }
     }
@@ -141,4 +141,3 @@ module.exports = function (fastify, opts, done) {
 
   done();
 };
-
