@@ -17,6 +17,9 @@ module.exports = {
       content: {
         type: Sequelize.STRING,
       },
+      metaDescription: {
+        type: Sequelize.STRING,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {

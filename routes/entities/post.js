@@ -87,12 +87,19 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["title", "shortDescription", "content", "UserId"],
+          required: [
+            "title",
+            "shortDescription",
+            "content",
+            "metaDescription",
+            "UserId",
+          ],
           properties: {
             title: { type: "string" },
             shortDescription: { type: "string" },
             content: { type: "string" },
             UserId: { type: "integer" },
+            metaDescription: { type: "string" },
           },
         },
       },
@@ -102,6 +109,7 @@ module.exports = function (fastify, opts, done) {
         const newPost = {
           title: req.body.title,
           shortDescription: req.body.shortDescription,
+          metaDescription: req.body.metaDescription,
           content: req.body.content,
           UserId: req.body.UserId,
         };
