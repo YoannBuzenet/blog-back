@@ -51,10 +51,7 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
-          properties: {
-            name: { type: "string" },
-          },
+          properties: {},
         },
       },
     },
@@ -73,7 +70,7 @@ module.exports = function (fastify, opts, done) {
 
         const savedPost = await post.save();
 
-        reply.code(200).send(Post);
+        reply.code(200).send(savedPost);
         return;
       } catch (e) {
         logger.log("error", "Error while searching forPost : " + e);

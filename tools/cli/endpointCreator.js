@@ -82,7 +82,7 @@ module.exports = function (fastify, opts, done) {
 
         const saved${capitalizedEntity} = await ${entity}.save();
 
-        reply.code(200).send(${capitalizedEntity});
+        reply.code(200).send(saved${capitalizedEntity});
         return;
       } catch (e) {
         logger.log("error", "Error while searching for${capitalizedEntity} : "+e);
