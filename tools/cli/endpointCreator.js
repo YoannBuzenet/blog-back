@@ -33,7 +33,7 @@ module.exports = function (fastify, opts, done) {
   );
 
   fastify.get(
-    "/byId/:id",
+    "/:id",
     {
       schema: {},
     },
