@@ -35,7 +35,11 @@ module.exports = function (fastify, opts, done) {
             id: req.params.id,
           },
         });
-        reply.code(200).send(post);
+        if (post) {
+          reply.code(200).send(post);
+        } else {
+          reply.code(404).send("Post non trouvé.");
+        }
       } catch (error) {
         logger.log("error", "Error while searching for all Posts :" + error);
         reply.code(500).send(error);

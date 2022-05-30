@@ -44,7 +44,11 @@ module.exports = function (fastify, opts, done) {
             id: req.params.id,
           },
         });
-        reply.code(200).send(${entity});
+        if (${entity}) {
+          reply.code(200).send(${entity});
+        } else {
+          reply.code(404).send("${entity} non trouvé.");
+        }
       } catch (error) {
         logger.log("error", "Error while searching for all ${capitalizedEntity}s :" +error);
         reply.code(500).send(error);
