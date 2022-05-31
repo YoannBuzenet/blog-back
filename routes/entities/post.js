@@ -12,7 +12,18 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const posts = await db.Post.findAll();
+        let posts = [];
+
+        const { sort } = req.query;
+        if (sort === "createdAt") {
+          // TODO pouvoir sort par tous les champs du modèle
+          posts = await db.Post.findAll({
+            limit: 10, // TODO Passer en env var
+            order: [["createdAt", "DESC"]], // TODO Rendre DESC/ASC customisable
+          });
+        } else {
+          posts = await db.Post.findAll();
+        }
 
         reply.code(200).send(posts);
       } catch (error) {
