@@ -15,12 +15,14 @@ module.exports = function (fastify, opts, done) {
       try {
         const { sort, limit } = req.query;
 
+        // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
+        const allPropertiesFromPost = Object.keys(db.Post.rawAttributes);
+
         // Préparer la requete
         let filters = {};
 
-        // TODO pouvoir sort par tous les champs du modèle
-        if (sort === "createdAt") {
-          filters.order = [["createdAt", "DESC"]];
+        if (allPropertiesFromPost.includes(sort)) {
+          filters.order = [[sort, "DESC"]];
         }
         if (limit && +limit < MAX_PAGINATION) {
           filters.limit = +limit;

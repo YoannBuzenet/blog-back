@@ -21,9 +21,27 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const ${entity}s = await db.${capitalizedEntity}.findAll();
+        const { sort, limit } = req.query;
 
-        reply.code(200).send(${entity}s);
+        // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
+        const allPropertiesFrom${capitalizedEntity} = Object.keys(db.${capitalizedEntity}.rawAttributes);
+
+        // Préparer la requete
+        let filters = {};
+
+        if (allPropertiesFrom${capitalizedEntity}.includes(sort)) {
+          filters.order = [[sort, "DESC"]];
+        }
+        if (limit && +limit < MAX_PAGINATION) {
+          filters.limit = +limit;
+        } else {
+          filters.limit = MAX_PAGINATION;
+        }
+
+        const ${entity} = await db.${capitalizedEntity}.findAll(filters);
+
+        reply.code(200).send(${entity});
+
       } catch (error) {
         logger.log("error", "Error while searching for all ${capitalizedEntity}s :" + error);
         reply.code(500).send(error);
