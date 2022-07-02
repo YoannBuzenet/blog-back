@@ -14,13 +14,29 @@ module.exports = (sequelize, DataTypes) => {
   }
   Post.init(
     {
-      title: DataTypes.STRING,
-      shortDescription: DataTypes.STRING,
-      metaDescription: DataTypes.STRING,
-      isScoop: DataTypes.BOOLEAN,
-      content: DataTypes.STRING,
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      shortDescription: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      metaDescription: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      isScoop: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      content: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       UserId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
       },
     },
     {

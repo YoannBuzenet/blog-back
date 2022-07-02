@@ -10,18 +10,23 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       shortDescription: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       content: {
         type: Sequelize.DataTypes.TEXT,
+        allowNull: false,
       },
       metaDescription: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       isScoop: {
         type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       UserId: {
         type: Sequelize.INTEGER,
@@ -29,6 +34,7 @@ module.exports = {
           model: "Users",
           key: "id",
         },
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
