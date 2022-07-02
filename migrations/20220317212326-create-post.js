@@ -20,6 +20,9 @@ module.exports = {
       metaDescription: {
         type: Sequelize.STRING,
       },
+      isScoop: {
+        type: Sequelize.BOOLEAN,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {

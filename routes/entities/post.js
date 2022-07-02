@@ -129,6 +129,7 @@ module.exports = function (fastify, opts, done) {
           title: req.body.title,
           shortDescription: req.body.shortDescription,
           metaDescription: req.body.metaDescription,
+          isScoop: req.body.isScoop,
           content: req.body.content,
           UserId: req.body.UserId,
         };
