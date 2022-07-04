@@ -9,31 +9,31 @@ module.exports = {
       "PostTags",
       [
         {
-          postid: 1,
+          post_id: 1,
           tag_id: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          postid: 2,
+          post_id: 2,
           tag_id: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          postid: 2,
+          post_id: 2,
           tag_id: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          postid: 3,
+          post_id: 3,
           tag_id: 4,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          postid: 3,
+          post_id: 3,
           tag_id: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
