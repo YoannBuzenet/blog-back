@@ -1,16 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("ImageTags", {
+    return queryInterface.createTable("PostTags", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      image_id: {
+      post_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Images",
+          model: "Posts",
           key: "id",
         },
       },
@@ -32,6 +32,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("ImageTags");
+    return queryInterface.dropTable("PostTags");
   },
 };

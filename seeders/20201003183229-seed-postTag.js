@@ -6,34 +6,34 @@ const { sampleContent, sampleMetaDescription } = require("./dataSample/posts");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      "ImageTags",
+      "PostTags",
       [
         {
-          image_id: 1,
+          postid: 1,
           tag_id: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          image_id: 2,
+          postid: 2,
           tag_id: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          image_id: 2,
+          postid: 2,
           tag_id: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          image_id: 3,
+          postid: 3,
           tag_id: 4,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          image_id: 3,
+          postid: 3,
           tag_id: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -53,7 +53,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("ImageTags", null, {});
+    return queryInterface.bulkDelete("PostTags", null, {});
     /**
      * Add commands to revert seed here.
      *
