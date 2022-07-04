@@ -8,3 +8,5 @@ TODO
 - Créer les associations NN entre Tag et Image
 - Créer une table pour le NN entre images et tags
 - Créer une table pour le NN entre articles et tags
+- Créer les endpoints pour Image et Post
+- Modifier les endpoints pour modifier les associations
