@@ -181,6 +181,7 @@ const createFile = async (entity) => {
   try {
     const data = endpointCreator(entity);
     const file = await fs.writeFile(`${entity}.js`, data, "utf8");
+    console.log("Endpoint crée à la racine!");
   } catch (e) {
     console.log("Erreur lors de la création du fichier", e);
   }
@@ -191,7 +192,6 @@ if (myArgs.length === 0) {
   console.log("Vous avez oublié le nom de l'entité.");
 } else {
   createFile(myArgs[0]);
-  console.log("Endpoint crée à la racine!");
 }
 
 module.exports = {

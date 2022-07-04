@@ -5,7 +5,5 @@ TODO
 
 ### Images / Tags
 
-- Créer les endpoints pour Image et Post
-- Modifier les endpoints pour modifier les associations
-- Créer une table pour le NN entre Tag et Image
-- Seeders pour tout ce beau monde
+- Créer les endpoints pour Image et Tag (existingScript.setFormats(req.body.formats);)
+- Modifier les endpoints pour modifier les associations sur Image/Tag/Post
