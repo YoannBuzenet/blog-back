@@ -1,8 +1,5 @@
 "use strict";
 
-const { formatSimple, formatComplex } = require("../services/react-slate");
-const { sampleContent, sampleMetaDescription } = require("./dataSample/posts");
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
