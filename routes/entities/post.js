@@ -66,6 +66,31 @@ module.exports = function (fastify, opts, done) {
       return;
     }
   );
+  fastify.get(
+    "/title/:title",
+    {
+      schema: {},
+    },
+    async (req, reply) => {
+      try {
+        const post = await db.Post.findOne({
+          where: {
+            title: req.params.title,
+          },
+        });
+        if (post) {
+          reply.code(200).send(post);
+        } else {
+          reply.code(404).send("Post par titre non trouvé.");
+        }
+      } catch (error) {
+        logger.log("error", "Error while searching for all Posts :" + error);
+        reply.code(500).send(error);
+      }
+
+      return;
+    }
+  );
 
   fastify.put(
     "/:id",
