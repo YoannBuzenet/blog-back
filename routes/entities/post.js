@@ -52,6 +52,10 @@ module.exports = function (fastify, opts, done) {
           where: {
             id: req.params.id,
           },
+          include: {
+            model: db.Post,
+            as: "Sibling",
+          },
         });
         if (post) {
           reply.code(200).send(post);
@@ -59,7 +63,7 @@ module.exports = function (fastify, opts, done) {
           reply.code(404).send("Post non trouvé.");
         }
       } catch (error) {
-        logger.log("error", "Error while searching for all Posts :" + error);
+        logger.log("error", "Error while searching for one Post :" + error);
         reply.code(500).send(error);
       }
 
@@ -77,6 +81,10 @@ module.exports = function (fastify, opts, done) {
           where: {
             title: req.params.title,
           },
+          include: {
+            model: db.Post,
+            as: "Sibling",
+          },
         });
         if (post) {
           reply.code(200).send(post);
@@ -84,7 +92,10 @@ module.exports = function (fastify, opts, done) {
           reply.code(404).send("Post par titre non trouvé.");
         }
       } catch (error) {
-        logger.log("error", "Error while searching for all Posts :" + error);
+        logger.log(
+          "error",
+          "Error while searching for one Post by title :" + error
+        );
         reply.code(500).send(error);
       }
 
@@ -165,7 +176,8 @@ module.exports = function (fastify, opts, done) {
         return;
       } catch (e) {
         logger.log("error", "Error while creating a Post :" + e);
-        reply.code(500).send("Error when creating a post");
+        reply.code(500).send("Error when creating a post" + e);
+        //TODO ajouter un parseur d'erreurs pour redonner les bonnes au front
       }
       return;
     }
