@@ -37,6 +37,10 @@ module.exports = {
         },
         allowNull: false,
       },
+      language: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
