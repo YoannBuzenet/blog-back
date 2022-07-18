@@ -114,7 +114,6 @@ module.exports = function (fastify, opts, done) {
             name: { type: "string" },
             credits: { type: "string" },
             language: { type: "string" },
-            image: { type: "string" },
             x: { type: "string" },
             y: { type: "string" },
             height: { type: "string" },
