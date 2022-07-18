@@ -32,7 +32,6 @@ module.exports = function (fastify, opts, done) {
         const image = await db.Image.findAll(filters);
 
         reply.code(200).send(image);
-
       } catch (error) {
         logger.log("error", "Error while searching for all Images :" + error);
         reply.code(500).send(error);
@@ -59,7 +58,7 @@ module.exports = function (fastify, opts, done) {
           reply.code(404).send("image non trouvé.");
         }
       } catch (error) {
-        logger.log("error", "Error while searching for all Images :" +error);
+        logger.log("error", "Error while searching for all Images :" + error);
         reply.code(500).send(error);
       }
 
@@ -98,7 +97,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(savedImage);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching forImage : "+e);
+        logger.log("error", "Error while searching forImage : " + e);
         reply.code(500).send("Error when editing a image");
       }
     }
@@ -109,17 +108,29 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
+          required: ["name", "credits", "language", "file"],
           properties: {
             name: { type: "string" },
+            credits: { type: "string" },
+            language: { type: "string" },
+            file: { type: "string" },
+            // we need the crop : x,y,width, height
           },
         },
       },
     },
     async (req, reply) => {
       try {
+        //  edit and save the file
+        let path = "";
+
+        // save the image record
+
         const newImage = {
           name: req.body.name,
+          credits: req.body.credits,
+          language: req.body.language,
+          path,
         };
 
         const savedImage = await db.Image.create(newImage);
@@ -127,7 +138,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(savedImage);
         return;
       } catch (e) {
-        logger.log("error", "Error while creating a Image :" +e);
+        logger.log("error", "Error while creating a Image :" + e);
         reply.code(500).send("Error when creating a image");
       }
       return;
@@ -155,7 +166,7 @@ module.exports = function (fastify, opts, done) {
 
         return;
       } catch (e) {
-        logger.log("error", "Error while deleting image :" +e);
+        logger.log("error", "Error while deleting image :" + e);
         reply.code(500).send("Error when editing a image");
       }
     }
@@ -163,4 +174,3 @@ module.exports = function (fastify, opts, done) {
 
   done();
 };
-
