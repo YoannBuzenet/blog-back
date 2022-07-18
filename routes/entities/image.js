@@ -1,4 +1,5 @@
 const path = require("path");
+const { cropImage } = require("../../controllers/image");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
 
@@ -108,13 +109,16 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name", "credits", "language", "file"],
+          required: ["name", "credits", "language", "image"],
           properties: {
             name: { type: "string" },
             credits: { type: "string" },
             language: { type: "string" },
-            file: { type: "string" },
-            // we need the crop : x,y,width, height
+            image: { type: "string" },
+            x: { type: "string" },
+            y: { type: "string" },
+            height: { type: "string" },
+            width: { type: "string" },
           },
         },
       },
@@ -123,19 +127,32 @@ module.exports = function (fastify, opts, done) {
       try {
         //  edit and save the file
         let path = "";
+        const didCropImage = await cropImage(
+          req.body.image,
+          req.body.x,
+          req.body.y,
+          req.body.width,
+          req.body.height
+        );
 
-        // save the image record
+        if (didCropImage) {
+          // save the image
 
-        const newImage = {
-          name: req.body.name,
-          credits: req.body.credits,
-          language: req.body.language,
-          path,
-        };
+          // if it worked, save the image record
+          const newImage = {
+            name: req.body.name,
+            credits: req.body.credits,
+            language: req.body.language,
+            path,
+          };
 
-        const savedImage = await db.Image.create(newImage);
+          const savedImage = await db.Image.create(newImage);
 
-        reply.code(200).send(savedImage);
+          reply.code(200).send(savedImage);
+        } else {
+          reply.code(500).send("Image could not be created.");
+        }
+
         return;
       } catch (e) {
         logger.log("error", "Error while creating a Image :" + e);
