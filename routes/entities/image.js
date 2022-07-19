@@ -103,6 +103,7 @@ module.exports = function (fastify, opts, done) {
       }
     }
   );
+  // TODO later : google quel type de schema peut accepter un formdata multipart (car si je met type:object, les request sont refusées)
   fastify.post(
     "/",
     {
@@ -128,11 +129,11 @@ module.exports = function (fastify, opts, done) {
         //  edit and save the file
         let path = "";
         const didCropImage = await cropImage(
-          data,
-          req.body.x,
-          req.body.y,
-          req.body.width,
-          req.body.height
+          data.file,
+          data.fields.x.value,
+          data.fields.y.value,
+          data.fields.width.value,
+          data.fields.height.value
         );
 
         if (didCropImage) {
