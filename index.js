@@ -1,12 +1,23 @@
 const path = require("path");
 const { logger } = require("./logger");
 
-const fastify = require("fastify")({ logger: { prettyPrint: true } });
+// https://github.com/pinojs/pino-pretty#integration
+// const pino = require("pino");
+// const logger = pino({
+//   transport: {
+//     target: "pino-pretty",
+//   },
+// });
 
-fastify.register(require("fastify-cors"), {
+// { logger: { prettyPrint: true } }
+const fastify = require("fastify")();
+
+fastify.register(require("@fastify/cors"), {
   origin: "*",
   // https://github.com/fastify/fastify-cors
 });
+
+fastify.register(require("@fastify/multipart"));
 
 fastify.register(require("./routes/entities/post"), {
   prefix: "/api/entities/posts",

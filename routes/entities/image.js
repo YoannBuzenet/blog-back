@@ -123,11 +123,13 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const data = req.file();
+      console.log("data", data);
       try {
         //  edit and save the file
         let path = "";
         const didCropImage = await cropImage(
-          req.body.image,
+          data,
           req.body.x,
           req.body.y,
           req.body.width,
