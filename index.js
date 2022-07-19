@@ -14,13 +14,15 @@ const fastify = require("fastify")();
 
 fastify.register(require("@fastify/cors"), {
   origin: "*",
-  // https://github.com/fastify/fastify-cors
 });
 
 fastify.register(require("@fastify/multipart"));
 
 fastify.register(require("./routes/entities/post"), {
   prefix: "/api/entities/posts",
+});
+fastify.register(require("./routes/entities/image"), {
+  prefix: "/api/entities/images",
 });
 
 // Loading debug env variables
