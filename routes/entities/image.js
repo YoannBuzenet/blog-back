@@ -2,6 +2,7 @@ const path = require("path");
 const { cropImage } = require("../../controllers/image");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
+const consumers = require("node:stream/consumers");
 
 module.exports = function (fastify, opts, done) {
   // TO DO : Add auth middleware
@@ -125,15 +126,19 @@ module.exports = function (fastify, opts, done) {
     async (req, reply) => {
       const data = await req.file();
       console.log("data", data);
+
+      const buf = await consumers.buffer(data.file);
+
       try {
         //  edit and save the file
         let path = "";
         const didCropImage = await cropImage(
-          data.file,
+          buf,
           data.fields.x.value,
           data.fields.y.value,
           data.fields.width.value,
-          data.fields.height.value
+          data.fields.height.value,
+          data.fields.name.value
         );
 
         if (didCropImage) {
@@ -141,9 +146,11 @@ module.exports = function (fastify, opts, done) {
 
           // if it worked, save the image record
           const newImage = {
-            name: req.body.name,
-            credits: req.body.credits,
-            language: req.body.language,
+            name: data.fields.name.value,
+            credits: "Artiste",
+            // credits: data.fields.credits.value,
+            // language: data.fields.language.value,
+            language: "FR",
             path,
           };
 
