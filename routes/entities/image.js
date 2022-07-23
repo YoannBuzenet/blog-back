@@ -124,8 +124,9 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      console.log(" -------- REQ RECUE -----------");
       const data = await req.file();
-      console.log("data", data);
+      // console.log("data", data);
 
       const buf = await consumers.buffer(data.file);
 

@@ -3,23 +3,27 @@ const { FOLDER_IMAGE } = require("../config/consts");
 
 const cropImage = async (image, x, y, width, height, imageName) => {
   // console.log("C4EST OK", image);
-  // console.log("C4EST OK", x);
-  // console.log("C4EST OK", y);
-  // console.log("C4EST OK", width);
-  // console.log("C4EST OK", height);
+  console.log("C4EST OK x", x);
+  console.log("C4EST OK y", y);
+  console.log("C4EST OK width", width);
+  console.log("C4EST OK height", height);
   const xNumber = parseInt(x, 10);
   const yNumber = parseInt(y, 10);
   const widthNumber = parseInt(width, 10);
   const heightNumber = parseInt(height, 10);
 
+  const metadata = await sharp(image).metadata();
+  console.log("pic datas", metadata);
+
   sharp(image)
+    .resize(680, null)
     .extract({
       left: xNumber,
       top: yNumber,
       width: widthNumber,
       height: heightNumber,
     })
-    .toFile(`${FOLDER_IMAGE}/${imageName}`, function (err) {
+    .toFile(`${FOLDER_IMAGE}/${imageName}.png`, function (err) {
       // Extract a region of the input image, saving in the same format.
       if (err) {
         console.log("--- error while registering image", err);
