@@ -139,7 +139,8 @@ module.exports = function (fastify, opts, done) {
           data.fields.y.value,
           data.fields.width.value,
           data.fields.height.value,
-          data.fields.name.value
+          data.fields.name.value,
+          "webp"
         );
 
         if (didCropImage) {

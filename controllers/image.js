@@ -1,7 +1,15 @@
 const sharp = require("sharp");
 const { FOLDER_IMAGE } = require("../config/consts");
 
-const cropImage = async (image, x, y, width, height, imageName) => {
+const cropImage = async (
+  image,
+  x,
+  y,
+  width,
+  height,
+  imageName,
+  formatOutput = "webp"
+) => {
   // console.log("C4EST OK", image);
   console.log("C4EST OK x", x);
   console.log("C4EST OK y", y);
@@ -12,8 +20,8 @@ const cropImage = async (image, x, y, width, height, imageName) => {
   const widthNumber = parseInt(width, 10);
   const heightNumber = parseInt(height, 10);
 
-  const metadata = await sharp(image).metadata();
-  console.log("pic datas", metadata);
+  // const metadata = await sharp(image).metadata();
+  // console.log("pic datas", metadata);
 
   sharp(image)
     .resize(680, null)
@@ -23,7 +31,7 @@ const cropImage = async (image, x, y, width, height, imageName) => {
       width: widthNumber,
       height: heightNumber,
     })
-    .toFile(`${FOLDER_IMAGE}/${imageName}.png`, function (err) {
+    .toFile(`${FOLDER_IMAGE}/${imageName}.${formatOutput}`, function (err) {
       // Extract a region of the input image, saving in the same format.
       if (err) {
         console.log("--- error while registering image", err);
