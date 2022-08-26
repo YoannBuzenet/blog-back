@@ -1,4 +1,5 @@
 const path = require("path");
+const { MAX_PAGINATION } = require("../../config/consts");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
 
@@ -32,7 +33,6 @@ module.exports = function (fastify, opts, done) {
         const tag = await db.Tag.findAll(filters);
 
         reply.code(200).send(tag);
-
       } catch (error) {
         logger.log("error", "Error while searching for all Tags :" + error);
         reply.code(500).send(error);
@@ -59,7 +59,7 @@ module.exports = function (fastify, opts, done) {
           reply.code(404).send("tag non trouvé.");
         }
       } catch (error) {
-        logger.log("error", "Error while searching for all Tags :" +error);
+        logger.log("error", "Error while searching for all Tags :" + error);
         reply.code(500).send(error);
       }
 
@@ -98,7 +98,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(savedTag);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching forTag : "+e);
+        logger.log("error", "Error while searching forTag : " + e);
         reply.code(500).send("Error when editing a tag");
       }
     }
@@ -127,7 +127,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(savedTag);
         return;
       } catch (e) {
-        logger.log("error", "Error while creating a Tag :" +e);
+        logger.log("error", "Error while creating a Tag :" + e);
         reply.code(500).send("Error when creating a tag");
       }
       return;
@@ -155,7 +155,7 @@ module.exports = function (fastify, opts, done) {
 
         return;
       } catch (e) {
-        logger.log("error", "Error while deleting tag :" +e);
+        logger.log("error", "Error while deleting tag :" + e);
         reply.code(500).send("Error when editing a tag");
       }
     }
@@ -163,4 +163,3 @@ module.exports = function (fastify, opts, done) {
 
   done();
 };
-

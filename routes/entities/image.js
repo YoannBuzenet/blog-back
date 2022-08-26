@@ -3,6 +3,7 @@ const { cropImage } = require("../../controllers/image");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
 const consumers = require("node:stream/consumers");
+const { MAX_PAGINATION } = require("../../config/consts");
 
 module.exports = function (fastify, opts, done) {
   // TO DO : Add auth middleware
