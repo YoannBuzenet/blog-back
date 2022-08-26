@@ -3,7 +3,7 @@ const { cropImage } = require("../../controllers/image");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
 const consumers = require("node:stream/consumers");
-const { MAX_PAGINATION } = require("../../config/consts");
+const { MAX_PAGINATION, FOLDER_IMAGE } = require("../../config/consts");
 
 module.exports = function (fastify, opts, done) {
   // TO DO : Add auth middleware
@@ -133,7 +133,7 @@ module.exports = function (fastify, opts, done) {
 
       try {
         //  edit and save the file
-        let path = "";
+        let path = path.join(FOLDER_IMAGE, data.fields.name.value);
         const didCropImage = await cropImage(
           buf,
           data.fields.x.value,
@@ -150,10 +150,8 @@ module.exports = function (fastify, opts, done) {
           // if it worked, save the image record
           const newImage = {
             name: data.fields.name.value,
-            credits: "Artiste",
-            // credits: data.fields.credits.value,
-            // language: data.fields.language.value,
-            language: "FR",
+            credits: data?.fields?.credits?.value,
+            language: data?.fields?.language?.value || "FR",
             path,
           };
 
