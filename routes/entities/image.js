@@ -133,7 +133,7 @@ module.exports = function (fastify, opts, done) {
 
       try {
         //  edit and save the file
-        let path = path.join(FOLDER_IMAGE, data.fields.name.value);
+        let pathImage = path.join(FOLDER_IMAGE, data.fields.name.value);
         const didCropImage = await cropImage(
           buf,
           data.fields.x.value,
@@ -152,7 +152,7 @@ module.exports = function (fastify, opts, done) {
             name: data.fields.name.value,
             credits: data?.fields?.credits?.value,
             language: data?.fields?.language?.value || "FR",
-            path,
+            path: pathImage,
           };
 
           const savedImage = await db.Image.create(newImage);
