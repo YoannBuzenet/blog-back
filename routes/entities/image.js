@@ -133,7 +133,7 @@ module.exports = function (fastify, opts, done) {
 
       try {
         //  edit and save the file
-        let pathImage = path.join(FOLDER_IMAGE, data.fields.name.value);
+        let pathImage = path.join(FOLDER_IMAGE, `${data.fields.name.value}.webp);
         const didCropImage = await cropImage(
           buf,
           data.fields.x.value,
