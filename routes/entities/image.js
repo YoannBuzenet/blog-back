@@ -3,13 +3,52 @@ const { cropImage } = require("../../controllers/image");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
 const consumers = require("node:stream/consumers");
-const { MAX_PAGINATION, FOLDER_IMAGE } = require("../../config/consts");
+const {
+  MAX_PAGINATION,
+  FOLDER_IMAGE,
+  DEFAULT_FORMAT_IMAGE,
+} = require("../../config/consts");
 
 module.exports = function (fastify, opts, done) {
   // TO DO : Add auth middleware
 
   fastify.get(
     "/",
+    {
+      schema: {},
+    },
+    async (req, reply) => {
+      try {
+        const { sort, limit } = req.query;
+
+        // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
+        const allPropertiesFromImage = Object.keys(db.Image.rawAttributes);
+
+        // Préparer la requete
+        let filters = {};
+
+        if (allPropertiesFromImage.includes(sort)) {
+          filters.order = [[sort, "DESC"]];
+        }
+        if (limit && +limit < MAX_PAGINATION) {
+          filters.limit = +limit;
+        } else {
+          filters.limit = MAX_PAGINATION;
+        }
+
+        const image = await db.Image.findAll(filters);
+
+        reply.code(200).send(image);
+      } catch (error) {
+        logger.log("error", "Error while searching for all Images :" + error);
+        reply.code(500).send(error);
+      }
+      return;
+    }
+  );
+
+  fastify.get(
+    "/file/:filename",
     {
       schema: {},
     },
@@ -133,7 +172,10 @@ module.exports = function (fastify, opts, done) {
 
       try {
         //  edit and save the file
-        let pathImage = path.join(FOLDER_IMAGE, `${data.fields.name.value}.webp);
+        let pathImage = path.join(
+          FOLDER_IMAGE,
+          `${data.fields.name.value}.${DEFAULT_FORMAT_IMAGE}`
+        );
         const didCropImage = await cropImage(
           buf,
           data.fields.x.value,
@@ -141,7 +183,7 @@ module.exports = function (fastify, opts, done) {
           data.fields.width.value,
           data.fields.height.value,
           data.fields.name.value,
-          "webp"
+          DEFAULT_FORMAT_IMAGE
         );
 
         if (didCropImage) {
@@ -149,7 +191,7 @@ module.exports = function (fastify, opts, done) {
 
           // if it worked, save the image record
           const newImage = {
-            name: data.fields.name.value,
+            name: `${data.fields.name.value}.${DEFAULT_FORMAT_IMAGE}`,
             credits: data?.fields?.credits?.value,
             language: data?.fields?.language?.value || "FR",
             path: pathImage,
