@@ -8,6 +8,7 @@ const {
   FOLDER_IMAGE,
   DEFAULT_FORMAT_IMAGE,
 } = require("../../config/consts");
+const fs = require("fs");
 
 module.exports = function (fastify, opts, done) {
   // TO DO : Add auth middleware
@@ -54,26 +55,29 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sort, limit } = req.query;
+        // on regarde si le fichier existe
 
-        // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
-        const allPropertiesFromImage = Object.keys(db.Image.rawAttributes);
+        // si oui on le renvoie en stream
 
-        // Préparer la requete
-        let filters = {};
+        // sinon, 404
 
-        if (allPropertiesFromImage.includes(sort)) {
-          filters.order = [[sort, "DESC"]];
-        }
-        if (limit && +limit < MAX_PAGINATION) {
-          filters.limit = +limit;
+        // plantage, 500
+
+        const { filename } = req.params;
+        const pathImage = path.join("images", filename);
+
+        if (fs.existsSync(pathImage)) {
+          //file exists
+          const stream = fs.createReadStream(pathImage);
+
+          reply.header(
+            "Content-Disposition",
+            `attachment; filename=${filename}`
+          );
+          reply.type(filename).code(200).send(stream);
         } else {
-          filters.limit = MAX_PAGINATION;
+          reply.code(404).send();
         }
-
-        const image = await db.Image.findAll(filters);
-
-        reply.code(200).send(image);
       } catch (error) {
         logger.log("error", "Error while searching for all Images :" + error);
         reply.code(500).send(error);
