@@ -29,6 +29,11 @@ fastify.register(require("./routes/entities/image"), {
   prefix: "/api/entities/images",
 });
 
+fastify.register(require("@fastify/static"), {
+  root: path.join(__dirname, "public"),
+  prefix: "/public/", // optional: default '/'
+});
+
 // Loading debug env variables
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();

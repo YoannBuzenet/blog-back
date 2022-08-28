@@ -19,11 +19,12 @@
   "author": "Yoann Buzenet",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^8.0.0",
     "@fastify/multipart": "^7.1.0",
+    "@fastify/static": "^6.5.0",
     "dotenv": "^16.0.0",
     "dotenv-cli": "^5.0.0",
     "fastify": "^4.2.1",
-    "@fastify/cors": "^8.0.0",
     "mysql2": "^2.3.3",
     "pino": "^8.2.0",
     "pino-pretty": "^7.5.3",

@@ -49,44 +49,6 @@ module.exports = function (fastify, opts, done) {
   );
 
   fastify.get(
-    "/file/:filename",
-    {
-      schema: {},
-    },
-    async (req, reply) => {
-      try {
-        // on regarde si le fichier existe
-
-        // si oui on le renvoie en stream
-
-        // sinon, 404
-
-        // plantage, 500
-
-        const { filename } = req.params;
-        const pathImage = path.join("images", filename);
-
-        if (fs.existsSync(pathImage)) {
-          //file exists
-          const stream = fs.createReadStream(pathImage);
-
-          reply.header(
-            "Content-Disposition",
-            `attachment; filename=${filename}`
-          );
-          reply.type(filename).code(200).send(stream);
-        } else {
-          reply.code(404).send();
-        }
-      } catch (error) {
-        logger.log("error", "Error while searching for all Images :" + error);
-        reply.code(500).send(error);
-      }
-      return;
-    }
-  );
-
-  fastify.get(
     "/:id",
     {
       schema: {},
