@@ -1,7 +1,11 @@
 "use strict";
 
 const { formatSimple, formatComplex } = require("../services/react-slate");
-const { sampleContent, sampleMetaDescription } = require("./dataSample/posts");
+const {
+  sampleContent,
+  sampleMetaDescription,
+  sampleUrl,
+} = require("./dataSample/posts");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,6 +17,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -24,6 +29,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "FR",
           UserId: 1,
@@ -35,6 +41,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -46,6 +53,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -57,6 +65,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -68,6 +77,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -79,6 +89,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -90,6 +101,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -101,6 +113,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -112,6 +125,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -123,6 +137,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -134,6 +149,7 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
+          mainImageUrl: sampleUrl,
           isScoop: true,
           language: "EN",
           UserId: 1,

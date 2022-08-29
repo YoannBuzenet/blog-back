@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      mainImageUrl: {
+        type: DataTypes.STRING,
+      },
       metaDescription: {
         type: DataTypes.STRING,
         allowNull: false,
