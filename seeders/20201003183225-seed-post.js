@@ -53,7 +53,9 @@ module.exports = {
           shortDescription: sampleMetaDescription,
           content: sampleContent,
           metaDescription: sampleMetaDescription,
-          mainImageUrl: sampleUrl,
+          mainImageUrl: formatSimple(
+            "https://lemagduchien.ouest-france.fr/images/dossiers/2019-08/chihuahua-095330.jpg"
+          ),
           isScoop: true,
           language: "EN",
           UserId: 1,
@@ -139,7 +141,7 @@ module.exports = {
           metaDescription: sampleMetaDescription,
           mainImageUrl: sampleUrl,
           isScoop: true,
-          language: "EN",
+          language: "FR",
           UserId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -151,7 +153,7 @@ module.exports = {
           metaDescription: sampleMetaDescription,
           mainImageUrl: sampleUrl,
           isScoop: true,
-          language: "EN",
+          language: "FR",
           UserId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),

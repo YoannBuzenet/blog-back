@@ -6,8 +6,8 @@ module.exports = {
       "Images",
       [
         {
-          name: "La belle image",
-          path: "https://www.google.fr",
+          name: "ohOui.webp",
+          path: "/public/images/ohOui.webp",
           language: "EN",
           credits: "Test Credits",
           createdAt: new Date(),
@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           name: "Chien allongé",
-          path: "https://www.google.fr/le-petit-chien",
+          path: "https://lemagduchien.ouest-france.fr/images/dossiers/2019-08/chihuahua-095330.jpg",
           language: "FR",
           credits: "Test Credits",
           createdAt: new Date(),
@@ -23,7 +23,7 @@ module.exports = {
         },
         {
           name: "Appartement tout neuf",
-          path: "https://unappart.fr",
+          path: "https://www.barnes-lyon.com/uploads/life_styles/2/pictures/21833/show_webp.webp?1616012620",
           language: "None",
           credits: "Test Credits",
           createdAt: new Date(),
