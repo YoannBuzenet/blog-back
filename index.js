@@ -28,6 +28,9 @@ fastify.register(require("./routes/entities/post"), {
 fastify.register(require("./routes/entities/image"), {
   prefix: "/api/entities/images",
 });
+fastify.register(require("./routes/entities/user"), {
+  prefix: "/api/entities/users",
+});
 
 fastify.register(require("@fastify/static"), {
   root: path.join(__dirname, "public"),

@@ -1,5 +1,6 @@
 TODO
 
+- créer le modèle pour les commentaires
 - l'endpoint de creation d'image doit connaitre le path de sauvegarde qu'a utilisé sharp dans le controller images
 
 - Factoriser le chargement des env var dans une fonction

@@ -12,6 +12,27 @@ module.exports = {
         email: {
           type: Sequelize.STRING,
         },
+        firstName: {
+          type: Sequelize.STRING,
+        },
+        lastName: {
+          type: Sequelize.STRING,
+        },
+        provider: {
+          type: Sequelize.STRING,
+        },
+        googleId: {
+          type: Sequelize.STRING,
+        },
+        googleAccessToken: {
+          type: Sequelize.STRING,
+        },
+        googleRefreshToken: {
+          type: Sequelize.STRING,
+        },
+        isLoggedUntil: {
+          type: Sequelize.STRING,
+        },
         nickname: {
           type: Sequelize.STRING,
         },
@@ -22,6 +43,15 @@ module.exports = {
           type: Sequelize.STRING,
         },
         avatarUrl: {
+          type: Sequelize.STRING,
+        },
+        userLocale: {
+          type: Sequelize.STRING,
+        },
+        lastConnection: {
+          type: Sequelize.STRING,
+        },
+        nonce: {
           type: Sequelize.STRING,
         },
         rights: {
