@@ -71,10 +71,28 @@ module.exports = (sequelize, DataTypes) => {
         }
       );
     }
+    static async updateExistingProfileWithGoogleAccount(userDB, userGoogle) {
+      let nonce = crypto.randomBytes(16).toString("base64");
+      userDB.nonce = nonce;
+      userDB.firstName = userGoogle.firstName;
+      userDB.lastName = userGoogle.lastName;
+      userDB.provider = "google";
+      userDB.googleId = userGoogle.googleId;
+      (userDB.googleAccessToken = hashingFunctions.hashPassword(
+        userGoogle.accessToken
+      )),
+        (userDB.googleRefreshToken = userGoogle.refreshToken);
+      userDB.isLoggedUntil = new Date().addHours(1).toUTCString();
+      userDB.avatarUrl = userGoogle.avatar;
+      userDB.userLocale = userGoogle.userLocale;
+      userDB.lastConnection = new Date().toUTCString();
+
+      return userDB.save();
+    }
   }
   User.init(
     {
-      email: DataTypes.STRING,
+      email: { type: DataTypes.STRING, allowNull: false, unique: true },
       nonce: { type: DataTypes.STRING, allowNull: false },
       nickname: { type: DataTypes.STRING, allowNull: true },
       firstName: DataTypes.STRING,

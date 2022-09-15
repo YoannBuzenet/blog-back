@@ -29,15 +29,29 @@ module.exports = function (fastify, opts, done) {
           },
         });
 
+        const userToFindByMail = await db.User.findOne({
+          where: {
+            email: req.body.user.email,
+          },
+        });
+
         let userToReturn;
 
         if (userToFind !== null) {
-          // If user already exists, we just update its token and relevant infos
+          // If user with google id already exists, we just update its token and relevant infos
           const userToUpdate = await db.User.updateTokenFromGoogle(
             userToFind,
             req.body.user
           );
           userToReturn = userToUpdate[0];
+        } else if (userToFindByMail !== null) {
+          // If user with same email already exists, we just update its token and relevant infos
+          await db.User.updateExistingProfileWithGoogleAccount(
+            userToFindByMail,
+            req.body.user
+          );
+
+          userToReturn = userToFindByMail;
         } else {
           // If user doesn't exit in db, we register it
           try {
@@ -94,7 +108,29 @@ module.exports = function (fastify, opts, done) {
         });
         reply.code(200).send(user);
       } catch (error) {
-        logger.log("error", "Error while searching for all Users :" + error);
+        logger.log("error", "Error while searching for user by id :" + error);
+        reply.code(500).send(error);
+      }
+
+      return;
+    }
+  );
+
+  fastify.get(
+    "/email/:email",
+    {
+      schema: {},
+    },
+    async (req, reply) => {
+      try {
+        const user = await db.User.findOne({
+          where: {
+            email: req.params.email,
+          },
+        });
+        reply.code(200).send(user);
+      } catch (error) {
+        logger.log("error", "Error while searching for user by mail :" + error);
         reply.code(500).send(error);
       }
 
