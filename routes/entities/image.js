@@ -125,6 +125,12 @@ module.exports = function (fastify, opts, done) {
             y: { type: "string" },
             height: { type: "string" },
             width: { type: "string" },
+            tags: {
+              type: "array",
+              items: {
+                type: "string",
+              },
+            },
           },
         },
       },
@@ -132,7 +138,7 @@ module.exports = function (fastify, opts, done) {
     async (req, reply) => {
       console.log(" -------- REQ RECUE -----------");
       const data = await req.file();
-      // console.log("data", data);
+      console.log("data image", data);
 
       const buf = await consumers.buffer(data.file);
 
@@ -162,6 +168,12 @@ module.exports = function (fastify, opts, done) {
             language: data?.fields?.language?.value || "FR",
             path: pathImage,
           };
+
+          if (data?.fields?.tags?.value) {
+            const tags = data?.fields?.tags?.value;
+            console.log("they are tags to set", tags);
+            await newImage.setTags(tags);
+          }
 
           const savedImage = await db.Image.create(newImage);
 

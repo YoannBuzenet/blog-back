@@ -31,6 +31,9 @@ fastify.register(require("./routes/entities/image"), {
 fastify.register(require("./routes/entities/user"), {
   prefix: "/api/entities/users",
 });
+fastify.register(require("./routes/entities/tag"), {
+  prefix: "/api/entities/tags",
+});
 
 fastify.register(require("@fastify/static"), {
   root: path.join(__dirname, "public"),
