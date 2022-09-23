@@ -37,6 +37,9 @@ module.exports = function (fastify, opts, done) {
           filters.limit = MAX_PAGINATION;
         }
 
+        // We add the tags
+        filters.include = [db.Tag];
+
         const image = await db.Image.findAll(filters);
 
         reply.code(200).send(image);
