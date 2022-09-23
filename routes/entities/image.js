@@ -172,6 +172,30 @@ module.exports = function (fastify, opts, done) {
           if (data?.fields?.tags?.value) {
             const tags = data?.fields?.tags?.value;
             console.log("they are tags to set", tags);
+
+            // All tags must be registered in DB before being indicated in Image association
+            if (Array.isArray(tags)) {
+              for (let i = 0; i < tags.length; i++) {
+                const [instance, created] = await db.Tag.upsert(tags[i]);
+              }
+            } else {
+              const [instance, created] = await db.Tag.upsert(tags);
+            }
+
+            // We must constitute array of ID of all tags
+            // HERE
+            let arrayOfTagsID = [];
+            for (let i = 0; i < tags.length; i++) {
+              const [instance, created] = await db.Tag.findOne({
+                where: {
+                  name: tags[i].name,
+                  language: tags[i].language,
+                },
+              });
+              arrayOfTagsID = [...arrayOfTagsID, instance.dataValues.id];
+            }
+
+            // Passing array of tag ids
             await newImage.setTags(tags);
           }
 

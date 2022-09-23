@@ -13,7 +13,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sort, limit, lang } = req.query;
+        const { sort, limit, language } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
         const allPropertiesFromPost = Object.keys(db.Post.rawAttributes);
@@ -30,8 +30,8 @@ module.exports = function (fastify, opts, done) {
           filters.limit = MAX_PAGINATION;
         }
 
-        if (lang) {
-          filters.where = { language: lang };
+        if (language) {
+          filters.where = { language: language };
         }
 
         const posts = await db.Post.findAll(filters);
