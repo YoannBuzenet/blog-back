@@ -5,12 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "create:db:dev:windows": "SET NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate",
-    "create:db:dev:mac": "export NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate",
-    "create:db:dev:mac:seed": "export NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all --debug",
-    "reset:db:dev:mac": "export NODE_ENV=development& sequelize db:create && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate",
-    "reset:db:dev:mac:seed": "export NODE_ENV=development& sequelize db:create && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all --debug",
-    "reset:db:dev:windows": "SET NODE_ENV=development& sequelize db:create && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate"
+    "create:db:dev": "export NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate",
+    "create:db:dev:seed": "export NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all --debug",
+    "reset:db:dev": "export NODE_ENV=development& sequelize db:create && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate",
+    "reset:db:dev:seed": "export NODE_ENV=development& sequelize db:create && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all --debug"
   },
   "keywords": [
     "blog",
