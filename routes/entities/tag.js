@@ -73,9 +73,10 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
+          required: ["name", "language"],
           properties: {
             name: { type: "string" },
+            language: { type: "string" },
           },
         },
       },
@@ -109,9 +110,10 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
+          required: ["name", "language"],
           properties: {
             name: { type: "string" },
+            language: { type: "string" },
           },
         },
       },
@@ -120,6 +122,7 @@ module.exports = function (fastify, opts, done) {
       try {
         const newTag = {
           name: req.body.name,
+          language: req.body.language,
         };
 
         const savedTag = await db.Tag.create(newTag);

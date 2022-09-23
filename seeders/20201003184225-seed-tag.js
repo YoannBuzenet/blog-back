@@ -7,26 +7,31 @@ module.exports = {
       [
         {
           name: "Tag de test",
+          language: "FR",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Sociologie",
+          language: "EN",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Tech",
+          language: "EN",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Philosophie",
+          language: "FR",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Economie",
+          language: "FR",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

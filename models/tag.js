@@ -25,6 +25,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      language: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isIn: {
+            args: [["EN", "FR", "SP", "None"]],
+            msg: "Value must be EN, or FR, or SP, or 'None'",
+          },
+        },
+      },
     },
     {
       sequelize,
