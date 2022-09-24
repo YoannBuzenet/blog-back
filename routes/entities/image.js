@@ -131,7 +131,7 @@ module.exports = function (fastify, opts, done) {
             tags: {
               type: "array",
               items: {
-                type: "string",
+                type: "object",
               },
             },
           },
@@ -177,29 +177,21 @@ module.exports = function (fastify, opts, done) {
             console.log("they are tags to set", tags);
 
             // All tags must be registered in DB before being indicated in Image association
+            let arrayOfTagsID = [];
             if (Array.isArray(tags)) {
               for (let i = 0; i < tags.length; i++) {
-                const [instance, created] = await db.Tag.upsert(tags[i]);
+                //A new tag holds the prop isNewTag
+                if (tags[i].isNewTag) {
+                  const tag = await db.create(tags[i]);
+                  arrayOfTagsID = [...arrayOfTagsID, tag.dataValues.id];
+                }
               }
-            } else {
-              const [instance, created] = await db.Tag.upsert(tags);
             }
 
-            // We must constitute array of ID of all tags
-            // HERE
-            let arrayOfTagsID = [];
-            for (let i = 0; i < tags.length; i++) {
-              const [instance, created] = await db.Tag.findOne({
-                where: {
-                  name: tags[i].name,
-                  language: tags[i].language,
-                },
-              });
-              arrayOfTagsID = [...arrayOfTagsID, instance.dataValues.id];
-            }
+            console.log("arrayOfTagsID", arrayOfTagsID);
 
             // Passing array of tag ids
-            await newImage.setTags(tags);
+            await newImage.setTags(arrayOfTagsID);
           }
 
           const savedImage = await db.Image.create(newImage);
