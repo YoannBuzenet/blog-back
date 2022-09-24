@@ -172,31 +172,33 @@ module.exports = function (fastify, opts, done) {
             path: pathImage,
           };
 
+          let arrayOfTagsID = [];
           if (data?.fields?.tags?.value) {
-            const tags = data?.fields?.tags?.value;
+            const tags = JSON.parse(data?.fields?.tags?.value);
             console.log("they are tags to set", tags);
 
             // All tags must be registered in DB before being indicated in Image association
-            let arrayOfTagsID = [];
             if (Array.isArray(tags)) {
               for (let i = 0; i < tags.length; i++) {
                 //A new tag holds the prop isNewTag
                 if (tags[i].isNewTag) {
-                  const tag = await db.create(tags[i]);
+                  const tag = await db.Tag.create(tags[i]);
                   arrayOfTagsID = [...arrayOfTagsID, tag.dataValues.id];
+                } else {
+                  arrayOfTagsID = [...arrayOfTagsID, tags[i].id];
                 }
               }
             }
 
             console.log("arrayOfTagsID", arrayOfTagsID);
-
-            // Passing array of tag ids
-            await newImage.setTags(arrayOfTagsID);
           }
 
           const savedImage = await db.Image.create(newImage);
 
-          reply.code(200).send(savedImage);
+          // Passing array of tag ids
+          const imageWithTags = await savedImage.setTags(arrayOfTagsID);
+
+          reply.code(200).send(imageWithTags);
         } else {
           reply.code(500).send("Image could not be created.");
         }

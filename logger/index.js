@@ -9,6 +9,8 @@ const logger = createLogger({
   format: combine(timestamp(), myFormat),
   defaultMeta: { service: "user-service" },
   transports: [
+    //TODO : check si on peut écrire un simple console.log
+    // tag NODE_ENV=development dispo avec npm run start:dev
     //
     // - Write all logs with level `error` and below to `error.log`
     // - Write all logs with level `info` and below to `combined.log`

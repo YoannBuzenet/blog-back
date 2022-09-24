@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start:debug": "export NODE_ENV=development& node index.js",
     "create:db:dev": "export NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate",
     "create:db:dev:seed": "export NODE_ENV=development& dotenv -e .env.local sequelize db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all --debug",
     "reset:db:dev": "export NODE_ENV=development& sequelize db:create && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate",
