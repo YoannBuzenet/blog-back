@@ -30,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           isIn: {
-            args: [["EN", "FR", "SP", "None"]],
-            msg: "Value must be EN, or FR, or SP, or 'None'",
+            args: [["en-US", "fr-FR", "sp-SP", "None"]],
+            msg: "Value must be en-US, or fr-FR, or sp-SP, or 'None'",
           },
         },
       },
