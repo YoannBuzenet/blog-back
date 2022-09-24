@@ -13,7 +13,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sort, limit, language } = req.query;
+        const { sortBy, limit, language } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
         const allPropertiesFromPost = Object.keys(db.Post.rawAttributes);
@@ -21,8 +21,8 @@ module.exports = function (fastify, opts, done) {
         // Préparer la requete
         let filters = {};
 
-        if (allPropertiesFromPost.includes(sort)) {
-          filters.order = [[sort, "DESC"]];
+        if (allPropertiesFromPost.includes(sortBy)) {
+          filters.order = [[sortBy, "DESC"]];
         }
         if (limit && +limit < MAX_PAGINATION) {
           filters.limit = +limit;

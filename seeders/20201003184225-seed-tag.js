@@ -1,5 +1,7 @@
 "use strict";
 
+const { FRENCH_LOCALE, ENGLISH_LOCALE } = require("../i18n/consts");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
@@ -7,31 +9,31 @@ module.exports = {
       [
         {
           name: "Tag de test",
-          language: "FR",
+          language: FRENCH_LOCALE,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Sociologie",
-          language: "EN",
+          language: ENGLISH_LOCALE,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Tech",
-          language: "EN",
+          language: ENGLISH_LOCALE,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Philosophie",
-          language: "FR",
+          language: FRENCH_LOCALE,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Economie",
-          language: "FR",
+          language: FRENCH_LOCALE,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

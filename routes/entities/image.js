@@ -20,7 +20,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sort, limit } = req.query;
+        const { sortBy, limit } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
         const allPropertiesFromImage = Object.keys(db.Image.rawAttributes);
@@ -28,8 +28,8 @@ module.exports = function (fastify, opts, done) {
         // Préparer la requete
         let filters = {};
 
-        if (allPropertiesFromImage.includes(sort)) {
-          filters.order = [[sort, "DESC"]];
+        if (allPropertiesFromImage.includes(sortBy)) {
+          filters.order = [[sortBy, "DESC"]];
         }
         if (limit && +limit < MAX_PAGINATION) {
           filters.limit = +limit;

@@ -1,5 +1,6 @@
 const path = require("path");
 const { MAX_PAGINATION } = require("../../config/consts");
+const { ENGLISH_LOCALE } = require("../../i18n/consts");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
 
@@ -13,7 +14,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sort, limit, language = "EN" } = req.query;
+        const { sortBy, limit, language = ENGLISH_LOCALE } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
         const allPropertiesFromTag = Object.keys(db.Tag.rawAttributes);
@@ -21,8 +22,8 @@ module.exports = function (fastify, opts, done) {
         // Préparer la requete
         let filters = {};
 
-        if (allPropertiesFromTag.includes(sort)) {
-          filters.order = [[sort, "DESC"]];
+        if (allPropertiesFromTag.includes(sortBy)) {
+          filters.order = [[sortBy, "DESC"]];
         }
         if (limit && +limit < MAX_PAGINATION) {
           filters.limit = +limit;
