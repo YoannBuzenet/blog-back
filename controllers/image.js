@@ -1,5 +1,5 @@
 const sharp = require("sharp");
-const { FOLDER_IMAGE } = require("../config/consts");
+const { FOLDER_IMAGE, WIDTH_RESIZE_IMAGE } = require("../config/consts");
 
 const cropImage = async (
   image,
@@ -24,7 +24,6 @@ const cropImage = async (
   // console.log("pic datas", metadata);
 
   sharp(image)
-    .resize(680, null)
     .extract({
       left: xNumber,
       top: yNumber,
