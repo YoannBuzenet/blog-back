@@ -20,7 +20,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sortBy, limit } = req.query;
+        const { sortBy, limit, tags } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
         const allPropertiesFromImage = Object.keys(db.Image.rawAttributes);
@@ -38,7 +38,11 @@ module.exports = function (fastify, opts, done) {
         }
 
         // We add the tags
-        filters.include = [db.Tag];
+        filters.include = [{ model: db.Tag }];
+
+        if (tags) {
+          filters.include[0].where = { name: tags };
+        }
 
         const image = await db.Image.findAll(filters);
 
