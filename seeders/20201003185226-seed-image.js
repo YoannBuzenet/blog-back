@@ -1,4 +1,5 @@
 "use strict";
+const { ENGLISH_LOCALE, FRENCH_LOCALE } = require("../i18n/consts");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,7 +9,7 @@ module.exports = {
         {
           name: "ohOui.webp",
           path: "/public/images/ohOui.webp",
-          language: "EN",
+          language: ENGLISH_LOCALE,
           credits: "Test Credits",
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -16,7 +17,7 @@ module.exports = {
         {
           name: "Chien allongé",
           path: "https://lemagduchien.ouest-france.fr/images/dossiers/2019-08/chihuahua-095330.jpg",
-          language: "FR",
+          language: FRENCH_LOCALE,
           credits: "Test Credits",
           createdAt: new Date(),
           updatedAt: new Date(),

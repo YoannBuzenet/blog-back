@@ -8,6 +8,7 @@ const {
   FOLDER_IMAGE,
   DEFAULT_FORMAT_IMAGE,
 } = require("../../config/consts");
+const { FRENCH_LOCALE } = require("../../i18n/consts");
 const fs = require("fs");
 
 module.exports = function (fastify, opts, done) {
@@ -20,7 +21,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sortBy, limit, tags } = req.query;
+        const { sortBy, limit, tags, language } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
         const allPropertiesFromImage = Object.keys(db.Image.rawAttributes);
@@ -37,9 +38,14 @@ module.exports = function (fastify, opts, done) {
           filters.limit = MAX_PAGINATION;
         }
 
+        if (language) {
+          filters.where = { language };
+        }
+
         // We add the tags
         filters.include = [{ model: db.Tag }];
 
+        //TODO gérer plusieurs tags (là ça ne marche qu'avec un)
         if (tags) {
           filters.include[0].where = { name: tags };
         }
@@ -172,7 +178,7 @@ module.exports = function (fastify, opts, done) {
           const newImage = {
             name: `${data.fields.name.value}.${DEFAULT_FORMAT_IMAGE}`,
             credits: data?.fields?.credits?.value,
-            language: data?.fields?.language?.value || "FR",
+            language: data?.fields?.language?.value || FRENCH_LOCALE,
             path: pathImage,
           };
 

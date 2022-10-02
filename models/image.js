@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { ENGLISH_LOCALE, FRENCH_LOCALE } = require("../i18n/consts");
 module.exports = (sequelize, DataTypes) => {
   class Image extends Model {
     /**
@@ -28,13 +29,13 @@ module.exports = (sequelize, DataTypes) => {
       language: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "EN",
-        // validate: {
-        //   isIn: {
-        //     args: ["EN", "FR", "SP", "None"],
-        //     msg: "Value must be EN, or FR, or SP, or 'None'",
-        //   },
-        // },
+        defaultValue: ENGLISH_LOCALE,
+        validate: {
+          isIn: {
+            args: [[ENGLISH_LOCALE, FRENCH_LOCALE, "SP", "None"]],
+            msg: `Value must be ${ENGLISH_LOCALE}, or ${FRENCH_LOCALE}, or SP, or 'None'`,
+          },
+        },
       },
       credits: {
         type: DataTypes.STRING,
