@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: ENGLISH_LOCALE,
         validate: {
           isIn: {
-            args: [[ENGLISH_LOCALE, FRENCH_LOCALE, "SP", "None"]],
-            msg: `Value must be ${ENGLISH_LOCALE}, or ${FRENCH_LOCALE}, or SP, or 'None'`,
+            args: [[ENGLISH_LOCALE, FRENCH_LOCALE, "SP", "All"]],
+            msg: `Value must be ${ENGLISH_LOCALE}, or ${FRENCH_LOCALE}, or SP, or 'All'`,
           },
         },
       },

@@ -40,6 +40,8 @@ module.exports = function (fastify, opts, done) {
 
         if (language) {
           filters.where = { language };
+        } else {
+          filters.where = { language: "All" };
         }
 
         // We add the tags

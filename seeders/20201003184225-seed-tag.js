@@ -37,6 +37,12 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          name: "Banner",
+          language: "All",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

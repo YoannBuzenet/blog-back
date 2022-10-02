@@ -38,6 +38,12 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          image_id: 2,
+          tag_id: 6,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

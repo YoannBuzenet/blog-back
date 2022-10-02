@@ -25,7 +25,7 @@ module.exports = {
         {
           name: "Appartement tout neuf",
           path: "https://www.barnes-lyon.com/uploads/life_styles/2/pictures/21833/show_webp.webp?1616012620",
-          language: "None",
+          language: "All",
           credits: "Test Credits",
           createdAt: new Date(),
           updatedAt: new Date(),
