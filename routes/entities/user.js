@@ -83,7 +83,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const users = await db.User.findAll();
+        const users = await db.User.findAll({ include: [db.Answer] });
 
         reply.code(200).send(users);
       } catch (error) {
@@ -127,6 +127,7 @@ module.exports = function (fastify, opts, done) {
           where: {
             email: req.params.email,
           },
+          include: [db.Answer],
         });
         reply.code(200).send(user);
       } catch (error) {
@@ -243,6 +244,7 @@ module.exports = function (fastify, opts, done) {
         where: {
           googleId: req.params.googleId,
         },
+        include: [db.Answer],
       });
 
       if (userToFind === null) {
