@@ -144,10 +144,6 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
-          properties: {
-            name: { type: "string" },
-          },
         },
       },
     },
@@ -166,10 +162,10 @@ module.exports = function (fastify, opts, done) {
 
         const savedUser = await user.save();
 
-        reply.code(200).send(User);
+        reply.code(200).send(savedUser);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching forUser : " + e);
+        logger.log("error", "Error while editing user : " + e);
         reply.code(500).send("Error when editing a user");
       }
     }

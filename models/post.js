@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "post_id",
       });
       Post.belongsToMany(Post, { as: "Sibling", through: "PostSiblings" });
+      Post.hasMany(models.Answer);
     }
   }
   Post.init(
