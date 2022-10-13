@@ -34,6 +34,9 @@ fastify.register(require("./routes/entities/user"), {
 fastify.register(require("./routes/entities/tag"), {
   prefix: "/api/entities/tags",
 });
+fastify.register(require("./routes/entities/answer"), {
+  prefix: "/api/entities/answers",
+});
 
 fastify.register(require("@fastify/static"), {
   root: path.join(__dirname, "public"),

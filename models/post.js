@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      isPublished: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       content: {
         type: DataTypes.STRING,
         allowNull: false,

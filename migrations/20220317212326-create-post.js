@@ -32,6 +32,11 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
+      isPublished: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {

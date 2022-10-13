@@ -32,7 +32,6 @@ module.exports = function (fastify, opts, done) {
         const answer = await db.Answer.findAll(filters);
 
         reply.code(200).send(answer);
-
       } catch (error) {
         logger.log("error", "Error while searching for all Answers :" + error);
         reply.code(500).send(error);
@@ -59,7 +58,36 @@ module.exports = function (fastify, opts, done) {
           reply.code(404).send("answer non trouvé.");
         }
       } catch (error) {
-        logger.log("error", "Error while searching for all Answers :" +error);
+        logger.log("error", "Error while searching for all Answers :" + error);
+        reply.code(500).send(error);
+      }
+
+      return;
+    }
+  );
+
+  fastify.get(
+    "/posts/:id",
+    {
+      schema: {},
+    },
+    async (req, reply) => {
+      try {
+        const answer = await db.Answer.findAll({
+          where: {
+            PostId: req.params.id,
+          },
+        });
+        if (answer) {
+          reply.code(200).send(answer);
+        } else {
+          reply.code(404).send("answers non trouvées.");
+        }
+      } catch (error) {
+        logger.log(
+          "error",
+          "Error while searching for all Answers for one post:" + error
+        );
         reply.code(500).send(error);
       }
 
@@ -98,7 +126,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(savedAnswer);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching forAnswer : "+e);
+        logger.log("error", "Error while searching forAnswer : " + e);
         reply.code(500).send("Error when editing a answer");
       }
     }
@@ -127,7 +155,7 @@ module.exports = function (fastify, opts, done) {
         reply.code(200).send(savedAnswer);
         return;
       } catch (e) {
-        logger.log("error", "Error while creating a Answer :" +e);
+        logger.log("error", "Error while creating a Answer :" + e);
         reply.code(500).send("Error when creating a answer");
       }
       return;
@@ -155,7 +183,7 @@ module.exports = function (fastify, opts, done) {
 
         return;
       } catch (e) {
-        logger.log("error", "Error while deleting answer :" +e);
+        logger.log("error", "Error while deleting answer :" + e);
         reply.code(500).send("Error when editing a answer");
       }
     }
@@ -163,4 +191,3 @@ module.exports = function (fastify, opts, done) {
 
   done();
 };
-
