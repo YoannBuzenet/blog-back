@@ -77,7 +77,14 @@ module.exports = function (fastify, opts, done) {
           where: {
             PostId: req.params.id,
           },
+          include: {
+            model: db.User,
+            attributes: ["id", "nickname"],
+          },
         });
+
+        // Removing all props but the one we want from user objects
+
         if (answer) {
           reply.code(200).send(answer);
         } else {
