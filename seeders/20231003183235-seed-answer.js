@@ -6,9 +6,23 @@ module.exports = {
       "Answers",
       [
         {
-          content: `[{"type":"paragraph","children":[{"text":"Tesla's biggest threat"}]}]`,
+          content: `[{"type":"paragraph","children":[{"text":"Tesla's biggest threat is not external - it is from trying to do too many things."}]}]`,
           UserId: 1,
           PostId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: `[{"type":"paragraph","children":[{"text":"I totally agree with your statement."}]}]`,
+          UserId: 1,
+          PostId: 1,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          content: `[{"type":"paragraph","children":[{"text":"J'ai toujours pensé que les magniolias étaient plus sympas."}]}]`,
+          UserId: 1,
+          PostId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
