@@ -15,7 +15,20 @@ module.exports = (sequelize, DataTypes) => {
       Answer.belongsTo(Answer, { foreignKey: "ParentAnswerId" });
     }
 
-    // TODO définir une méthode qui renvoie un booléen pour savoir si 2 réponses ont bien le même post
+    static async isSamePost(parentAnswerId, newAnswerPostId) {
+      const answer = await Answer.findOne({
+        where: {
+          id: parentAnswerId,
+        },
+      });
+
+      const idPostParentAnswer = answer?.dataValues?.PostId;
+      const idPostParentAnswerInt = parseInt(idPostParentAnswer, 10);
+
+      const newAnswerPostIdInt = parseInt(newAnswerPostId, 10);
+
+      return idPostParentAnswerInt === newAnswerPostIdInt;
+    }
   }
   Answer.init(
     {

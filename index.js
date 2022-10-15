@@ -43,8 +43,8 @@ fastify.register(require("@fastify/static"), {
   prefix: "/public/", // optional: default '/'
 });
 
-// Loading debug env variables
 if (process.env.NODE_ENV !== "production") {
+  // Loading debug env variables
   require("dotenv").config();
   const result = require("dotenv").config({
     path: path.resolve(process.cwd(), "./.env.local"),
@@ -57,6 +57,12 @@ if (process.env.NODE_ENV !== "production") {
   } else {
     console.log("SUCCESS - .env.local file found.");
   }
+
+  // Loading test routes
+  console.log("Loading test routes...");
+  fastify.register(require("./routes/test/answer"), {
+    prefix: "/api/test/entities/answers",
+  });
 }
 // Refacto in Development module to load ?
 // Loading debug routes
