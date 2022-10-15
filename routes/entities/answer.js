@@ -146,9 +146,12 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
+          required: ["content", "UserId", "PostId"],
           properties: {
-            name: { type: "string" },
+            content: { type: "string" },
+            UserId: { type: "number" },
+            PostId: { type: "number" },
+            ParentAnswerId: { type: "number" },
           },
         },
       },
@@ -156,8 +159,26 @@ module.exports = function (fastify, opts, done) {
     async (req, reply) => {
       try {
         const newAnswer = {
-          name: req.body.name,
+          content: req.body.content,
+          UserId: req.body.UserId,
+          PostId: req.body.PostId,
+          ParentAnswerId: req.body.ParentAnswerId,
         };
+
+        // If we get a parent answer ID, we check for integrity that the parent answer is about the same post
+        if (req.body.ParentAnswerId) {
+          const isIntegrityOK = await db.Answer.isSamePost(
+            req.body.ParentAnswerId,
+            req.body.PostId
+          );
+          if (!isIntegrityOK) {
+            reply
+              .code(400)
+              .send(
+                "Bad Request. The Post Id of the parent answer doesn't match its children."
+              );
+          }
+        }
 
         const savedAnswer = await db.Answer.create(newAnswer);
 
