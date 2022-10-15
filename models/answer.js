@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Answer.belongsTo(models.User);
       Answer.belongsTo(models.Post);
+      Answer.belongsTo(Answer, { foreignKey: "ParentAnswerId" });
     }
   }
   Answer.init(
@@ -28,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       PostId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      ParentAnswerId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
     },
     {

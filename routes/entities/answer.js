@@ -138,6 +138,8 @@ module.exports = function (fastify, opts, done) {
       }
     }
   );
+
+  // TODO Vérifier que la réponse parente est bien sur le même post
   fastify.post(
     "/",
     {

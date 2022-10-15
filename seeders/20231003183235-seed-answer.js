@@ -26,6 +26,15 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        // This one is an answer to answer 3
+        {
+          content: `[{"type":"paragraph","children":[{"text":"J'ai toujours pensé que les magniolias étaient plus sympas."}]}]`,
+          UserId: 1,
+          PostId: 2,
+          ParentAnswerId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );

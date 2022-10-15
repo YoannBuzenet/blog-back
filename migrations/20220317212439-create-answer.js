@@ -27,6 +27,14 @@ module.exports = {
         },
         allowNull: false,
       },
+      ParentAnswerId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Answers",
+          key: "id",
+        },
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
