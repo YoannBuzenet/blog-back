@@ -28,10 +28,37 @@ module.exports = {
         },
         // This one is an answer to answer 3
         {
-          content: `[{"type":"paragraph","children":[{"text":"J'ai toujours pensé que les magniolias étaient plus sympas."}]}]`,
+          content: `[{"type":"paragraph","children":[{"text":"Je préfère les marguerites."}]}]`,
           UserId: 1,
           PostId: 2,
           ParentAnswerId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        // This one is an answer to answer 4
+        {
+          content: `[{"type":"paragraph","children":[{"text":"Tout à fait Bobby."}]}]`,
+          UserId: 1,
+          PostId: 2,
+          ParentAnswerId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        // This one is ANOTHER answer to answer 3
+        {
+          content: `[{"type":"paragraph","children":[{"text":"Et que penser de la chance dûe au fait de naitre au bon endroit ? Je veux dire, même oprhelin, il est né dans la Silicon Valley chez un ingénieur !"}]}]`,
+          UserId: 1,
+          PostId: 2,
+          ParentAnswerId: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        // This one is ANOTHER answer to answer 4
+        {
+          content: `[{"type":"paragraph","children":[{"text":"Arrêtez votre spam !"}]}]`,
+          UserId: 1,
+          PostId: 2,
+          ParentAnswerId: 4,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

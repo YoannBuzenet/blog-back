@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       Answer.belongsTo(models.Post);
       Answer.belongsTo(Answer, { foreignKey: "ParentAnswerId" });
     }
+
+    // TODO définir une méthode qui renvoie un booléen pour savoir si 2 réponses ont bien le même post
   }
   Answer.init(
     {
