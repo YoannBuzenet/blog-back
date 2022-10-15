@@ -175,8 +175,9 @@ module.exports = function (fastify, opts, done) {
             reply
               .code(400)
               .send(
-                "Bad Request. The Post Id of the parent answer doesn't match its children."
+                "Bad Request. The Post Id of the parent answer doesn't match its child."
               );
+            return;
           }
         }
 
