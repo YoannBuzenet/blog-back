@@ -112,8 +112,13 @@ module.exports = (sequelize, DataTypes) => {
         return false;
       }
 
-      // user.dataValues.isLoggedUntil
-      //TODO : transformer ça en timestamp avec moment
+      // Comparing 2 timestamps
+      const isLoggedUntilTimeStamp = new Date(
+        user.dataValues.isLoggedUntil
+      ).getTime();
+      const now = new Date().getTime();
+
+      return isLoggedUntilTimeStamp > now;
     }
   }
   User.init(
