@@ -1,6 +1,7 @@
 const path = require("path");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
+const { isComingFromBlog } = require("../../services/authControl");
 
 module.exports = function (fastify, opts, done) {
   fastify.get(
@@ -29,6 +30,22 @@ module.exports = function (fastify, opts, done) {
       }
 
       return;
+    }
+  );
+
+  fastify.get(
+    "/authEndpointPassPhrase",
+    {
+      schema: {},
+    },
+    async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        return reply.code(401).send("Unauthorized");
+      } else {
+        return reply.code(200).send("Ok Bro");
+      }
     }
   );
   done();

@@ -1,6 +1,7 @@
 const path = require("path");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
+const { isComingFromBlog } = require("../../services/authControl");
 
 module.exports = function (fastify, opts, done) {
   fastify.post(
@@ -102,6 +103,12 @@ module.exports = function (fastify, opts, done) {
       schema: {},
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       try {
         const user = await db.User.findOne({
           where: {

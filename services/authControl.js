@@ -6,7 +6,7 @@ const belongsToRelevantUser = (userID, userIDOwnerOfContent) => {
 };
 
 const isComingFromBlog = (header) => {
-  return header.Authorization === process.env.PASSPHRASE;
+  return header.authorization === process.env.PASSPHRASE;
 };
 
 module.exports = {
