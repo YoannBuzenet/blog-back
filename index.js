@@ -16,6 +16,7 @@ const fastify = require("fastify")({
   },
 });
 
+//TODO cacher ça dans un autre fichier
 fastify.register(require("@fastify/cors"), {
   origin: "*",
 });

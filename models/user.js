@@ -90,6 +90,30 @@ module.exports = (sequelize, DataTypes) => {
 
       return userDB.save();
     }
+
+    // We check the token in DB. As they may be several token depending on provider implementation, we ask it as a parameter
+    static async isAuthenticated(token, provider = "google") {
+      let columnToCheck;
+      if (provider === "google") {
+        columnToCheck = "googleAccessToken";
+      } else {
+        console.error("ERROR - provider not recognized. Received :" + provider);
+        return false;
+      }
+
+      const user = await User.findOne({
+        where: {
+          [columnToCheck]: token,
+        },
+      });
+
+      if (!user) {
+        console.warn("No user found.");
+        return false;
+      }
+
+      // user.dataValues.isLoggedUntil
+    }
   }
   User.init(
     {
