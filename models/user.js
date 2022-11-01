@@ -113,6 +113,7 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       // user.dataValues.isLoggedUntil
+      //TODO : transformer ça en timestamp avec moment
     }
   }
   User.init(

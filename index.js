@@ -64,6 +64,9 @@ if (process.env.NODE_ENV !== "production") {
   fastify.register(require("./routes/test/answer"), {
     prefix: "/api/test/entities/answers",
   });
+  fastify.register(require("./routes/test/user"), {
+    prefix: "/api/test/entities/user",
+  });
 }
 // Refacto in Development module to load ?
 // Loading debug routes
