@@ -5,6 +5,11 @@ const belongsToRelevantUser = (userID, userIDOwnerOfContent) => {
   return userIDInt === userIDOwnerOfContentInt;
 };
 
+const isComingFromBlog = (header) => {
+  return header.Authorization === process.env.PASSPHRASE;
+};
+
 module.exports = {
   belongsToRelevantUser,
+  isComingFromBlog,
 };

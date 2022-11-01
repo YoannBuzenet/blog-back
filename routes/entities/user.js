@@ -3,8 +3,6 @@ const { logger } = require("../../logger");
 const db = require("../../models/index");
 
 module.exports = function (fastify, opts, done) {
-  // TO DO : Add auth middleware
-
   fastify.post(
     "/login-and-register-if-needed",
     {
@@ -76,6 +74,7 @@ module.exports = function (fastify, opts, done) {
     }
   );
 
+  //TODO later : paginer
   fastify.get(
     "/",
     {
@@ -94,6 +93,9 @@ module.exports = function (fastify, opts, done) {
     }
   );
 
+  // TODO : comment éviter de se faire scrap tous ses utilisateurs ?
+  // Cet endpoint doit avoir une protection passPhrase
+  // et les réponses ne doivent jamais sortir dans le front du blog-front : on fera les checks dans getServerSideProps
   fastify.get(
     "/:id",
     {
