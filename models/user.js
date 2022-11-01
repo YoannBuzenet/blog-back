@@ -92,7 +92,8 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     // We check the token in DB. As they may be several token depending on provider implementation, we ask it as a parameter
-    static async isAuthenticated(token, provider = "google") {
+    // We check on userID AND the token
+    static async isAuthenticated(userID, token, provider = "google") {
       let columnToCheck;
       if (provider === "google") {
         columnToCheck = "googleAccessToken";
@@ -104,6 +105,7 @@ module.exports = (sequelize, DataTypes) => {
       const user = await User.findOne({
         where: {
           [columnToCheck]: token,
+          id: userID,
         },
       });
 
