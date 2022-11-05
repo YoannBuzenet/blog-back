@@ -2,6 +2,7 @@
 const { Model } = require("sequelize");
 const crypto = require("crypto");
 const hashingFunctions = require("../services/hashingFunctions");
+const { USER_STATUS } = require("../config/consts");
 
 // Specific function definition to handle UTC more easily
 Date.prototype.addHours = function (h) {
@@ -121,6 +122,23 @@ module.exports = (sequelize, DataTypes) => {
       const now = new Date().getTime();
 
       return isLoggedUntilTimeStamp > now;
+    }
+
+    static async isAdmin(userID) {
+      const user = await User.findOne({
+        where: {
+          id: userID,
+        },
+      });
+
+      if (!user) {
+        console.warn("No user found.");
+        return false;
+      }
+
+      let userStatus = user.dataValues.rights;
+
+      return userStatus === USER_STATUS.ADMIN;
     }
   }
   User.init(
