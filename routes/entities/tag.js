@@ -86,6 +86,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const tag = await db.Tag.findOne({
         where: {
           id: req.params.id,
@@ -123,6 +129,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       try {
         const newTag = {
           name: req.body.name,
@@ -149,6 +161,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const tag = await db.Tag.findOne({
         where: {
           id: req.params.id,

@@ -103,6 +103,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const image = await db.Image.findOne({
         where: {
           id: req.params.id,
@@ -151,6 +157,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       console.log(" -------- REQ RECUE -----------");
       const data = await req.file();
       console.log("data image", data);
@@ -232,6 +244,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const image = await db.Image.findOne({
         where: {
           id: req.params.id,

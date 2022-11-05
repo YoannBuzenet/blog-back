@@ -5,6 +5,13 @@ const belongsToRelevantUser = (userID, userIDOwnerOfContent) => {
   return userIDInt === userIDOwnerOfContentInt;
 };
 
+/**
+ * Filtre pour s'assurer que le call vient du front du blog
+ * Ne jamais faire sortir les datas issues des requetes sur le front, sinon on devient scrappables
+ * Les réponses ne doivent jamais sortir dans le front du blog-front : on fera les checks dans getServerSideProps
+ * @param {*} header
+ * @returns boolean
+ */
 const isComingFromBlog = (header) => {
   return header.authorization === process.env.PASSPHRASE;
 };

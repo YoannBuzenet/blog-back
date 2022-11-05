@@ -82,6 +82,12 @@ module.exports = function (fastify, opts, done) {
       schema: {},
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       try {
         const users = await db.User.findAll({ include: [db.Answer] });
 
@@ -94,9 +100,6 @@ module.exports = function (fastify, opts, done) {
     }
   );
 
-  // TODO : comment éviter de se faire scrap tous ses utilisateurs ?
-  // Cet endpoint doit avoir une protection passPhrase
-  // et les réponses ne doivent jamais sortir dans le front du blog-front : on fera les checks dans getServerSideProps
   fastify.get(
     "/:id",
     {
@@ -131,6 +134,12 @@ module.exports = function (fastify, opts, done) {
       schema: {},
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       try {
         const user = await db.User.findOne({
           where: {
@@ -158,6 +167,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const user = await db.User.findOne({
         where: {
           id: req.params.id,
@@ -219,6 +234,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const user = await db.User.findOne({
         where: {
           id: req.params.id,
@@ -248,6 +269,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       // Checking if user already exists
       const userToFind = await db.User.findOne({
         where: {

@@ -11,6 +11,12 @@ module.exports = function (fastify, opts, done) {
       schema: {},
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       try {
         const { sort, limit } = req.query;
 
@@ -46,6 +52,12 @@ module.exports = function (fastify, opts, done) {
       schema: {},
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       try {
         const answer = await db.Answer.findOne({
           where: {
@@ -116,6 +128,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const answer = await db.Answer.findOne({
         where: {
           id: req.params.id,
@@ -200,6 +218,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const answer = await db.Answer.findOne({
         where: {
           id: req.params.id,

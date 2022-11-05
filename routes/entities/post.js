@@ -74,6 +74,7 @@ module.exports = function (fastify, opts, done) {
       return;
     }
   );
+
   fastify.get(
     "/title/:title",
     {
@@ -118,6 +119,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const post = await db.Post.findOne({
         where: {
           id: req.params.id,
@@ -164,6 +171,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       try {
         const newPost = {
           title: req.body.title,
@@ -195,6 +208,12 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      const isRequestAuthorized = isComingFromBlog(req.headers);
+
+      if (!isRequestAuthorized) {
+        reply.code(401).send("Unauthorized");
+      }
+
       const post = await db.Post.findOne({
         where: {
           id: req.params.id,
