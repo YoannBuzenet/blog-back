@@ -86,6 +86,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       try {
@@ -110,6 +111,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       try {
@@ -138,6 +140,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       try {
@@ -171,6 +174,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const user = await db.User.findOne({
@@ -238,6 +242,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const user = await db.User.findOne({
@@ -273,6 +278,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       // Checking if user already exists

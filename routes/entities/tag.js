@@ -90,6 +90,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const tag = await db.Tag.findOne({
@@ -133,6 +134,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       try {
@@ -165,6 +167,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const tag = await db.Tag.findOne({

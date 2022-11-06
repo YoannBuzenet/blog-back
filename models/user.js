@@ -140,6 +140,50 @@ module.exports = (sequelize, DataTypes) => {
 
       return userStatus === USER_STATUS.ADMIN;
     }
+
+    /**
+     * Centralisation des deux fonctions isAuthenticated et isAdmin pour ne faire qu'un appel en DB
+     * @param {*} userID
+     * @param {*} token
+     * @param {*} provider
+     * @returns boolean
+     */
+    static async isAuthenticatedAndAdmin(userID, token, provider = "google") {
+      let columnToCheck;
+      if (provider === "google") {
+        columnToCheck = "googleAccessToken";
+      } else {
+        console.error("ERROR - provider not recognized. Received :" + provider);
+        return false;
+      }
+
+      const user = await User.findOne({
+        where: {
+          [columnToCheck]: token,
+          id: userID,
+        },
+      });
+
+      if (!user) {
+        console.warn("No user found.");
+        return false;
+      }
+
+      // Comparing 2 timestamps
+      const isLoggedUntilTimeStamp = new Date(
+        user.dataValues.isLoggedUntil
+      ).getTime();
+      const now = new Date().getTime();
+
+      if (isLoggedUntilTimeStamp > now) {
+        let userStatus = user.dataValues.rights;
+
+        return userStatus === USER_STATUS.ADMIN;
+      } else {
+        console.log("User plus logué.");
+        return false;
+      }
+    }
   }
   User.init(
     {

@@ -107,6 +107,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const image = await db.Image.findOne({
@@ -161,6 +162,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       console.log(" -------- REQ RECUE -----------");
@@ -248,6 +250,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const image = await db.Image.findOne({

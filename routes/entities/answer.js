@@ -1,6 +1,8 @@
 const path = require("path");
 const { logger } = require("../../logger");
 const db = require("../../models/index");
+const { belongsToRelevantUser } = require("../../services/authControl");
+const user = require("./user");
 
 module.exports = function (fastify, opts, done) {
   // TO DO : Add auth middleware
@@ -15,6 +17,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       try {
@@ -56,6 +59,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       try {
@@ -120,18 +124,24 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
+          required: ["userID", "token", "provider"],
           properties: {
-            name: { type: "string" },
+            userID: { type: "string" },
+            token: { type: "string" },
+            provider: { type: "string" },
           },
         },
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
+      const { userID, token, provider } = req.body;
 
-      if (!isRequestAuthorized) {
+      const isUserLogged = db.User.isAuthenticated(userID, token, provider);
+      const isUserAdmin = db.User.isAdmin(userID);
+
+      if (!isUserLogged) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const answer = await db.Answer.findOne({
@@ -139,6 +149,21 @@ module.exports = function (fastify, opts, done) {
           id: req.params.id,
         },
       });
+
+      if (!answer) {
+        reply.code(404).send();
+        return;
+      }
+
+      const isUserOwnerOfContent = belongsToRelevantUser(
+        userID,
+        answer.dataValues.UserId
+      );
+
+      if (!isUserOwnerOfContent || !isUserAdmin) {
+        reply.code(401).send();
+        return;
+      }
 
       try {
         // change object, save it
@@ -222,6 +247,7 @@ module.exports = function (fastify, opts, done) {
 
       if (!isRequestAuthorized) {
         reply.code(401).send("Unauthorized");
+        return;
       }
 
       const answer = await db.Answer.findOne({
