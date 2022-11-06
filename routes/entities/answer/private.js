@@ -1,22 +1,25 @@
-const { logger } = require("../../logger");
-const db = require("../../models/index");
+const { logger } = require("../../../logger");
+const db = require("../../../models/index");
 
 // Private endpoints for next blog-front only.
 
 module.exports = function (fastify, opts, done) {
+  fastify.addHook("preHandler", (request, reply, done) => {
+    const isRequestAuthorized = isComingFromBlog(req.headers);
+
+    if (!isRequestAuthorized) {
+      reply.code(401).send("Unauthorized");
+      return;
+    }
+    done();
+  });
+
   fastify.get(
     "/",
     {
       schema: {},
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       try {
         const { sort, limit } = req.query;
 
@@ -52,13 +55,6 @@ module.exports = function (fastify, opts, done) {
       schema: {},
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       try {
         const answer = await db.Answer.findOne({
           where: {

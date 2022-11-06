@@ -35,7 +35,13 @@ fastify.register(require("./routes/entities/user"), {
 fastify.register(require("./routes/entities/tag"), {
   prefix: "/api/entities/tags",
 });
-fastify.register(require("./routes/entities/answer"), {
+fastify.register(require("./routes/entities/answer/auth"), {
+  prefix: "/api/entities/answers",
+});
+fastify.register(require("./routes/entities/answer/private"), {
+  prefix: "/api/entities/answers",
+});
+fastify.register(require("./routes/entities/answer/public"), {
   prefix: "/api/entities/answers",
 });
 

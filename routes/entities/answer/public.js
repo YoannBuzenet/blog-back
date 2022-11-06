@@ -1,8 +1,5 @@
-const path = require("path");
-const { logger } = require("../../logger");
-const db = require("../../models/index");
-const { belongsToRelevantUser } = require("../../services/authControl");
-const user = require("./user");
+const { logger } = require("../../../logger");
+const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
   // All answers for one post
