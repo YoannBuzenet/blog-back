@@ -3,6 +3,23 @@ const db = require("../../../models/index");
 const { belongsToRelevantUser } = require("../../../services/authControl");
 
 module.exports = function (fastify, opts, done) {
+  fastify.addHook("preHandler", (request, reply, done) => {
+    const { userID, token, provider } = req.body;
+
+    if (!token || !provider || !userID) {
+      reply.code(400).send("Bad Request.");
+      return;
+    }
+
+    const isUserLogged = db.User.isAuthenticated(userID, token, provider);
+
+    if (!isUserLogged) {
+      reply.code(401).send("Unauthorized");
+      return;
+    }
+    done();
+  });
+
   fastify.put(
     "/:id",
     {
@@ -19,15 +36,8 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
-      const { userID, token, provider } = req.body;
-
-      const isUserLogged = db.User.isAuthenticated(userID, token, provider);
+      const { userID } = req.body;
       const isUserAdmin = db.User.isAdmin(userID);
-
-      if (!isUserLogged) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
 
       const answer = await db.Answer.findOne({
         where: {
@@ -73,12 +83,14 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["content", "UserId", "PostId"],
+          required: ["content", "UserId", "PostId", "token", "provider"],
           properties: {
             content: { type: "string" },
             UserId: { type: "number" },
             PostId: { type: "number" },
             ParentAnswerId: { type: "number" },
+            token: { type: "string" },
+            provider: { type: "string" },
           },
         },
       },
@@ -124,17 +136,18 @@ module.exports = function (fastify, opts, done) {
     "/:id",
     {
       schema: {
-        body: {},
+        body: {
+          type: "object",
+          required: ["UserId", "token", "provider"],
+          properties: {
+            UserId: { type: "number" },
+            token: { type: "string" },
+            provider: { type: "string" },
+          },
+        },
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       const answer = await db.Answer.findOne({
         where: {
           id: req.params.id,
