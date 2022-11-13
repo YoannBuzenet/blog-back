@@ -1,14 +1,13 @@
 const path = require("path");
-const { cropImage } = require("../../controllers/image");
-const { logger } = require("../../logger");
-const db = require("../../models/index");
+const { logger } = require("../../../logger");
+const db = require("../../../models/index");
 const consumers = require("node:stream/consumers");
 const {
   MAX_PAGINATION,
   FOLDER_IMAGE,
   DEFAULT_FORMAT_IMAGE,
-} = require("../../config/consts");
-const { FRENCH_LOCALE } = require("../../i18n/consts");
+} = require("../../../config/consts");
+const { FRENCH_LOCALE } = require("../../../i18n/consts");
 const fs = require("fs");
 
 module.exports = function (fastify, opts, done) {

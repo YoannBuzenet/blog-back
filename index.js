@@ -23,26 +23,32 @@ fastify.register(require("@fastify/cors"), {
 
 fastify.register(require("@fastify/multipart"));
 
-fastify.register(require("./routes/entities/post/post"), {
-  prefix: "/api/entities/posts",
-});
-fastify.register(require("./routes/entities/image"), {
-  prefix: "/api/entities/images",
-});
-fastify.register(require("./routes/user/user"), {
-  prefix: "/api/entities/users",
-});
-fastify.register(require("./routes/entities/tag/tag"), {
-  prefix: "/api/entities/tags",
-});
-fastify.register(require("./routes/entities/answer/auth"), {
-  prefix: "/api/entities/answers",
-});
 fastify.register(require("./routes/entities/answer/private"), {
   prefix: "/api/entities/answers",
 });
 fastify.register(require("./routes/entities/answer/public"), {
   prefix: "/api/entities/answers",
+});
+fastify.register(require("./routes/entities/image/auth"), {
+  prefix: "/api/entities/image",
+});
+fastify.register(require("./routes/entities/image/private"), {
+  prefix: "/api/entities/image",
+});
+fastify.register(require("./routes/entities/post/public"), {
+  prefix: "/api/entities/posts",
+});
+fastify.register(require("./routes/entities/post/private"), {
+  prefix: "/api/entities/posts",
+});
+fastify.register(require("./routes/entities/post/auth"), {
+  prefix: "/api/entities/posts",
+});
+fastify.register(require("./routes/entities/tag/auth"), {
+  prefix: "/api/entities/tags",
+});
+fastify.register(require("./routes/entities/tag/private"), {
+  prefix: "/api/entities/tags",
 });
 
 fastify.register(require("@fastify/static"), {
