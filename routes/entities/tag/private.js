@@ -5,7 +5,15 @@ const { logger } = require("../../../logger");
 const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
-  // TO DO : Add auth middleware
+  fastify.addHook("preHandler", (request, reply, done) => {
+    const isRequestAuthorized = isComingFromBlog(request.headers);
+
+    if (!isRequestAuthorized) {
+      reply.code(401).send("Unauthorized");
+      return;
+    }
+    done();
+  });
 
   fastify.get(
     "/",
@@ -68,124 +76,6 @@ module.exports = function (fastify, opts, done) {
       }
 
       return;
-    }
-  );
-
-  fastify.put(
-    "/:id",
-    {
-      schema: {
-        body: {
-          type: "object",
-          required: ["name", "language"],
-          properties: {
-            name: { type: "string" },
-            language: { type: "string" },
-          },
-        },
-      },
-    },
-    async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
-      const tag = await db.Tag.findOne({
-        where: {
-          id: req.params.id,
-        },
-      });
-
-      try {
-        // change object, save it
-        for (const prop in req.body) {
-          tag[prop] = req.body[prop];
-        }
-
-        const savedTag = await tag.save();
-
-        reply.code(200).send(savedTag);
-        return;
-      } catch (e) {
-        logger.log("error", "Error while searching forTag : " + e);
-        reply.code(500).send("Error when editing a tag");
-      }
-    }
-  );
-  fastify.post(
-    "/",
-    {
-      schema: {
-        body: {
-          type: "object",
-          required: ["name", "language"],
-          properties: {
-            name: { type: "string" },
-            language: { type: "string" },
-          },
-        },
-      },
-    },
-    async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
-      try {
-        const newTag = {
-          name: req.body.name,
-          language: req.body.language,
-        };
-
-        const savedTag = await db.Tag.create(newTag);
-
-        reply.code(200).send(savedTag);
-        return;
-      } catch (e) {
-        logger.log("error", "Error while creating a Tag :" + e);
-        reply.code(500).send("Error when creating a tag");
-      }
-      return;
-    }
-  );
-
-  fastify.delete(
-    "/:id",
-    {
-      schema: {
-        body: {},
-      },
-    },
-    async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
-      const tag = await db.Tag.findOne({
-        where: {
-          id: req.params.id,
-        },
-      });
-
-      try {
-        //Delete
-        const deletedTag = await tag.destroy();
-        reply.code(200).send(deletedTag.dataValues);
-
-        return;
-      } catch (e) {
-        logger.log("error", "Error while deleting tag :" + e);
-        reply.code(500).send("Error when editing a tag");
-      }
     }
   );
 

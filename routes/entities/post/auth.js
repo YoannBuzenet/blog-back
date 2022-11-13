@@ -5,7 +5,7 @@ const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
   fastify.addHook("preHandler", (request, reply, done) => {
-    const { userID, token, provider } = req.body;
+    const { userID, token, provider } = request.body;
 
     if (!token || !provider || !userID) {
       reply.code(400).send("Bad Request.");

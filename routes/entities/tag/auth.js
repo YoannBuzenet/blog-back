@@ -5,71 +5,22 @@ const { logger } = require("../../../logger");
 const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
-  // TO DO : Add auth middleware
+  fastify.addHook("preHandler", (request, reply, done) => {
+    const { userID, token, provider } = request.body;
 
-  fastify.get(
-    "/",
-    {
-      schema: {},
-    },
-    async (req, reply) => {
-      try {
-        const { sortBy, limit, language = ENGLISH_LOCALE } = req.query;
-
-        // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
-        const allPropertiesFromTag = Object.keys(db.Tag.rawAttributes);
-
-        // Préparer la requete
-        let filters = {};
-
-        if (allPropertiesFromTag.includes(sortBy)) {
-          filters.order = [[sortBy, "DESC"]];
-        }
-        if (limit && +limit < MAX_PAGINATION) {
-          filters.limit = +limit;
-        } else {
-          filters.limit = MAX_PAGINATION;
-        }
-
-        filters.where = {};
-        filters.where.language = language;
-
-        const tag = await db.Tag.findAll(filters);
-
-        reply.code(200).send(tag);
-      } catch (error) {
-        logger.log("error", "Error while searching for all Tags :" + error);
-        reply.code(500).send(error);
-      }
+    if (!token || !provider || !userID) {
+      reply.code(400).send("Bad Request.");
       return;
     }
-  );
 
-  fastify.get(
-    "/:id",
-    {
-      schema: {},
-    },
-    async (req, reply) => {
-      try {
-        const tag = await db.Tag.findOne({
-          where: {
-            id: req.params.id,
-          },
-        });
-        if (tag) {
-          reply.code(200).send(tag);
-        } else {
-          reply.code(404).send("tag non trouvé.");
-        }
-      } catch (error) {
-        logger.log("error", "Error while searching for all Tags :" + error);
-        reply.code(500).send(error);
-      }
+    const isUserLogged = db.User.isAuthenticated(userID, token, provider);
 
+    if (!isUserLogged) {
+      reply.code(401).send("Unauthorized");
       return;
     }
-  );
+    done();
+  });
 
   fastify.put(
     "/:id",
@@ -77,22 +28,18 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name", "language"],
+          required: ["name", "language", "userID", "token", "provider"],
           properties: {
             name: { type: "string" },
             language: { type: "string" },
+            userID: { type: "string" },
+            token: { type: "string" },
+            provider: { type: "string" },
           },
         },
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       const tag = await db.Tag.findOne({
         where: {
           id: req.params.id,
@@ -121,22 +68,18 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name", "language"],
+          required: ["name", "language", "userID", "token", "provider"],
           properties: {
             name: { type: "string" },
             language: { type: "string" },
+            userID: { type: "string" },
+            token: { type: "string" },
+            provider: { type: "string" },
           },
         },
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       try {
         const newTag = {
           name: req.body.name,
@@ -159,17 +102,18 @@ module.exports = function (fastify, opts, done) {
     "/:id",
     {
       schema: {
-        body: {},
+        body: {
+          type: "object",
+          required: ["UserId", "token", "provider"],
+          properties: {
+            UserId: { type: "number" },
+            token: { type: "string" },
+            provider: { type: "string" },
+          },
+        },
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       const tag = await db.Tag.findOne({
         where: {
           id: req.params.id,
