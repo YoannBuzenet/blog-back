@@ -5,7 +5,7 @@ const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
   fastify.addHook("preHandler", (request, reply, done) => {
-    const isRequestAuthorized = isComingFromBlog(req.headers);
+    const isRequestAuthorized = isComingFromBlog(request.headers);
 
     if (!isRequestAuthorized) {
       reply.code(401).send("Unauthorized");

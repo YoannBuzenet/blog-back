@@ -1,8 +1,8 @@
 const path = require("path");
-const { MAX_PAGINATION } = require("../../config/consts");
-const { ENGLISH_LOCALE } = require("../../i18n/consts");
-const { logger } = require("../../logger");
-const db = require("../../models/index");
+const { MAX_PAGINATION } = require("../../../config/consts");
+const { ENGLISH_LOCALE } = require("../../../i18n/consts");
+const { logger } = require("../../../logger");
+const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
   // TO DO : Add auth middleware

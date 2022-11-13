@@ -23,16 +23,16 @@ fastify.register(require("@fastify/cors"), {
 
 fastify.register(require("@fastify/multipart"));
 
-fastify.register(require("./routes/entities/post"), {
+fastify.register(require("./routes/entities/post/post"), {
   prefix: "/api/entities/posts",
 });
 fastify.register(require("./routes/entities/image"), {
   prefix: "/api/entities/images",
 });
-fastify.register(require("./routes/entities/user"), {
+fastify.register(require("./routes/user/user"), {
   prefix: "/api/entities/users",
 });
-fastify.register(require("./routes/entities/tag"), {
+fastify.register(require("./routes/entities/tag/tag"), {
   prefix: "/api/entities/tags",
 });
 fastify.register(require("./routes/entities/answer/auth"), {

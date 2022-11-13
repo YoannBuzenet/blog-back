@@ -12,82 +12,22 @@ const { FRENCH_LOCALE } = require("../../i18n/consts");
 const fs = require("fs");
 
 module.exports = function (fastify, opts, done) {
-  // TO DO : Add auth middleware
+  fastify.addHook("preHandler", (request, reply, done) => {
+    const { userID, token, provider } = req.body;
 
-  fastify.get(
-    "/",
-    {
-      schema: {},
-    },
-    async (req, reply) => {
-      try {
-        const { sortBy, limit, tags, language } = req.query;
-
-        // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
-        const allPropertiesFromImage = Object.keys(db.Image.rawAttributes);
-
-        // Préparer la requete
-        let filters = {};
-
-        if (allPropertiesFromImage.includes(sortBy)) {
-          filters.order = [[sortBy, "DESC"]];
-        }
-        if (limit && +limit < MAX_PAGINATION) {
-          filters.limit = +limit;
-        } else {
-          filters.limit = MAX_PAGINATION;
-        }
-
-        if (language) {
-          filters.where = { language };
-        } else {
-          filters.where = { language: "All" };
-        }
-
-        // We add the tags
-        filters.include = [{ model: db.Tag }];
-
-        //TODO gérer plusieurs tags (là ça ne marche qu'avec un)
-        if (tags) {
-          filters.include[0].where = { name: tags };
-        }
-
-        const image = await db.Image.findAll(filters);
-
-        reply.code(200).send(image);
-      } catch (error) {
-        logger.log("error", "Error while searching for all Images :" + error);
-        reply.code(500).send(error);
-      }
+    if (!token || !provider || !userID) {
+      reply.code(400).send("Bad Request.");
       return;
     }
-  );
 
-  fastify.get(
-    "/:id",
-    {
-      schema: {},
-    },
-    async (req, reply) => {
-      try {
-        const image = await db.Image.findOne({
-          where: {
-            id: req.params.id,
-          },
-        });
-        if (image) {
-          reply.code(200).send(image);
-        } else {
-          reply.code(404).send("image non trouvé.");
-        }
-      } catch (error) {
-        logger.log("error", "Error while searching for all Images :" + error);
-        reply.code(500).send(error);
-      }
+    const isUserLogged = db.User.isAuthenticated(userID, token, provider);
 
+    if (!isUserLogged) {
+      reply.code(401).send("Unauthorized");
       return;
     }
-  );
+    done();
+  });
 
   fastify.put(
     "/:id",
@@ -95,21 +35,17 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["name"],
+          required: ["name", "UserId", "token", "provider"],
           properties: {
             name: { type: "string" },
+            UserId: { type: "number" },
+            token: { type: "string" },
+            provider: { type: "string" },
           },
         },
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       const image = await db.Image.findOne({
         where: {
           id: req.params.id,
@@ -138,7 +74,15 @@ module.exports = function (fastify, opts, done) {
     {
       schema: {
         body: {
-          required: ["name", "credits", "language", "image"],
+          required: [
+            "name",
+            "credits",
+            "language",
+            "image",
+            "UserId",
+            "token",
+            "provider",
+          ],
           properties: {
             name: { type: "string" },
             credits: { type: "string" },
@@ -147,6 +91,9 @@ module.exports = function (fastify, opts, done) {
             y: { type: "string" },
             height: { type: "string" },
             width: { type: "string" },
+            UserId: { type: "number" },
+            token: { type: "string" },
+            provider: { type: "string" },
             tags: {
               type: "array",
               items: {
@@ -158,13 +105,6 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       console.log(" -------- REQ RECUE -----------");
       const data = await req.file();
       console.log("data image", data);
@@ -242,17 +182,18 @@ module.exports = function (fastify, opts, done) {
     "/:id",
     {
       schema: {
-        body: {},
+        body: {
+          type: "object",
+          required: ["UserId", "token", "provider"],
+          properties: {
+            UserId: { type: "number" },
+            token: { type: "string" },
+            provider: { type: "string" },
+          },
+        },
       },
     },
     async (req, reply) => {
-      const isRequestAuthorized = isComingFromBlog(req.headers);
-
-      if (!isRequestAuthorized) {
-        reply.code(401).send("Unauthorized");
-        return;
-      }
-
       const image = await db.Image.findOne({
         where: {
           id: req.params.id,
