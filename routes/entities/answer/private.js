@@ -1,5 +1,6 @@
 const { logger } = require("../../../logger");
 const db = require("../../../models/index");
+const { isComingFromBlog } = require("../../../services/authControl");
 
 // Private endpoints for next blog-front only.
 

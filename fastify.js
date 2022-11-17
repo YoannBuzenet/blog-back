@@ -28,10 +28,13 @@ fastify.register(require("./routes/entities/answer/public"), {
   prefix: "/api/entities/answers",
 });
 fastify.register(require("./routes/entities/image/auth"), {
-  prefix: "/api/entities/image",
+  prefix: "/api/entities/images",
 });
 fastify.register(require("./routes/entities/image/private"), {
-  prefix: "/api/entities/image",
+  prefix: "/api/entities/images",
+});
+fastify.register(require("./routes/entities/image/public"), {
+  prefix: "/api/entities/images",
 });
 fastify.register(require("./routes/entities/post/public"), {
   prefix: "/api/entities/posts",
@@ -46,6 +49,9 @@ fastify.register(require("./routes/entities/tag/auth"), {
   prefix: "/api/entities/tags",
 });
 fastify.register(require("./routes/entities/tag/private"), {
+  prefix: "/api/entities/tags",
+});
+fastify.register(require("./routes/entities/tag/public"), {
   prefix: "/api/entities/tags",
 });
 

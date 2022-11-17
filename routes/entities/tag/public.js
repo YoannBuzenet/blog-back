@@ -1,20 +1,11 @@
 const path = require("path");
 const { MAX_PAGINATION } = require("../../../config/consts");
+const { ENGLISH_LOCALE } = require("../../../i18n/consts");
 const { logger } = require("../../../logger");
 const db = require("../../../models/index");
 const { isComingFromBlog } = require("../../../services/authControl");
 
 module.exports = function (fastify, opts, done) {
-  fastify.addHook("preHandler", (request, reply, done) => {
-    const isRequestAuthorized = isComingFromBlog(request.headers);
-
-    if (!isRequestAuthorized) {
-      reply.code(401).send("Unauthorized");
-      return;
-    }
-    done();
-  });
-
   fastify.get(
     "/",
     {
@@ -22,15 +13,15 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sortBy, limit, language } = req.query;
+        const { sortBy, limit, language = ENGLISH_LOCALE } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
-        const allPropertiesFromPost = Object.keys(db.Post.rawAttributes);
+        const allPropertiesFromTag = Object.keys(db.Tag.rawAttributes);
 
         // Préparer la requete
         let filters = {};
 
-        if (allPropertiesFromPost.includes(sortBy)) {
+        if (allPropertiesFromTag.includes(sortBy)) {
           filters.order = [[sortBy, "DESC"]];
         }
         if (limit && +limit < MAX_PAGINATION) {
@@ -39,15 +30,14 @@ module.exports = function (fastify, opts, done) {
           filters.limit = MAX_PAGINATION;
         }
 
-        if (language) {
-          filters.where = { language: language };
-        }
+        filters.where = {};
+        filters.where.language = language;
 
-        const posts = await db.Post.findAll(filters);
+        const tag = await db.Tag.findAll(filters);
 
-        reply.code(200).send(posts);
+        reply.code(200).send(tag);
       } catch (error) {
-        logger.log("error", "Error while searching for all Posts :" + error);
+        logger.log("error", "Error while searching for all Tags :" + error);
         reply.code(500).send(error);
       }
       return;

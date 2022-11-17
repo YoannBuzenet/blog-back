@@ -1,20 +1,9 @@
 const path = require("path");
-const { MAX_PAGINATION } = require("../../../config/consts");
 const { logger } = require("../../../logger");
 const db = require("../../../models/index");
-const { isComingFromBlog } = require("../../../services/authControl");
+const { MAX_PAGINATION } = require("../../../config/consts");
 
 module.exports = function (fastify, opts, done) {
-  fastify.addHook("preHandler", (request, reply, done) => {
-    const isRequestAuthorized = isComingFromBlog(request.headers);
-
-    if (!isRequestAuthorized) {
-      reply.code(401).send("Unauthorized");
-      return;
-    }
-    done();
-  });
-
   fastify.get(
     "/",
     {
@@ -22,15 +11,15 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sortBy, limit, language } = req.query;
+        const { sortBy, limit, tags, language } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
-        const allPropertiesFromPost = Object.keys(db.Post.rawAttributes);
+        const allPropertiesFromImage = Object.keys(db.Image.rawAttributes);
 
         // Préparer la requete
         let filters = {};
 
-        if (allPropertiesFromPost.includes(sortBy)) {
+        if (allPropertiesFromImage.includes(sortBy)) {
           filters.order = [[sortBy, "DESC"]];
         }
         if (limit && +limit < MAX_PAGINATION) {
@@ -40,14 +29,24 @@ module.exports = function (fastify, opts, done) {
         }
 
         if (language) {
-          filters.where = { language: language };
+          filters.where = { language };
+        } else {
+          filters.where = { language: "All" };
         }
 
-        const posts = await db.Post.findAll(filters);
+        // We add the tags
+        filters.include = [{ model: db.Tag }];
 
-        reply.code(200).send(posts);
+        //TODO gérer plusieurs tags (là ça ne marche qu'avec un)
+        if (tags) {
+          filters.include[0].where = { name: tags };
+        }
+
+        const image = await db.Image.findAll(filters);
+
+        reply.code(200).send(image);
       } catch (error) {
-        logger.log("error", "Error while searching for all Posts :" + error);
+        logger.log("error", "Error while searching for all Images :" + error);
         reply.code(500).send(error);
       }
       return;
