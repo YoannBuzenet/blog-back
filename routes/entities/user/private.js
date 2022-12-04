@@ -1,7 +1,7 @@
 const path = require("path");
-const { logger } = require("../../logger");
-const db = require("../../models/index");
-const { isComingFromBlog } = require("../../services/authControl");
+const { logger } = require("../../../logger");
+const db = require("../../../models/index");
+const { isComingFromBlog } = require("../../../services/authControl");
 
 module.exports = function (fastify, opts, done) {
   fastify.addHook("preHandler", (request, reply, done) => {

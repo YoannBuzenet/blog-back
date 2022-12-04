@@ -13,14 +13,14 @@ const fs = require("fs");
 
 module.exports = function (fastify, opts, done) {
   fastify.addHook("preHandler", (request, reply, done) => {
-    const { userID, token, provider } = request.body;
+    const { UserId, token, provider } = request.body;
 
-    if (!token || !provider || !userID) {
+    if (!token || !provider || !UserId) {
       reply.code(400).send("Bad Request.");
       return;
     }
 
-    const isUserLogged = db.User.isAuthenticated(userID, token, provider);
+    const isUserLogged = db.User.isAuthenticated(UserId, token, provider);
 
     if (!isUserLogged) {
       reply.code(401).send("Unauthorized");

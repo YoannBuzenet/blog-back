@@ -4,14 +4,14 @@ const { belongsToRelevantUser } = require("../../../services/authControl");
 
 module.exports = function (fastify, opts, done) {
   fastify.addHook("preHandler", (request, reply, done) => {
-    const { userID, token, provider } = request.body;
+    const { UserId, token, provider } = request.body;
 
-    if (!token || !provider || !userID) {
+    if (!token || !provider || !UserId) {
       reply.code(400).send("Bad Request.");
       return;
     }
 
-    const isUserLogged = db.User.isAuthenticated(userID, token, provider);
+    const isUserLogged = db.User.isAuthenticated(UserId, token, provider);
 
     if (!isUserLogged) {
       reply.code(401).send("Unauthorized");
@@ -26,9 +26,9 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: ["userID", "token", "provider"],
+          required: ["UserId", "token", "provider"],
           properties: {
-            userID: { type: "string" },
+            UserId: { type: "string" },
             token: { type: "string" },
             provider: { type: "string" },
           },
@@ -36,8 +36,8 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
-      const { userID } = req.body;
-      const isUserAdmin = db.User.isAdmin(userID);
+      const { UserId } = req.body;
+      const isUserAdmin = db.User.isAdmin(UserId);
 
       const answer = await db.Answer.findOne({
         where: {
@@ -51,7 +51,7 @@ module.exports = function (fastify, opts, done) {
       }
 
       const isUserOwnerOfContent = belongsToRelevantUser(
-        userID,
+        UserId,
         answer.dataValues.UserId
       );
 
@@ -96,6 +96,7 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+      console.log('CALL RECU')
       try {
         const newAnswer = {
           content: req.body.content,
