@@ -91,6 +91,7 @@ module.exports = function (fastify, opts, done) {
         const newPost = {
           title: req.body.title,
           shortDescription: req.body.shortDescription,
+          mainImageUrl: req.body.mainImageUrl,
           metaDescription: req.body.metaDescription,
           isScoop: req.body.isScoop,
           content: req.body.content,
