@@ -3,6 +3,16 @@ const { logger } = require("../../logger");
 const db = require("../../models/index");
 
 module.exports = function (fastify, opts, done) {
+
+  fastify.addHook("preHandler", (request, reply, done) => {
+    console.log("TEST req reçue", request);
+    console.log("TEST req.body", request.body);
+
+    
+    done();
+  });
+
+
   fastify.get(
     "/:idParentAnswer/:idPostChild",
     {

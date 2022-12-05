@@ -19,7 +19,7 @@ fastify.register(require("@fastify/cors"), {
   origin: "*",
 });
 
-fastify.register(require("@fastify/multipart"));
+fastify.register(require("@fastify/multipart"), { attachFieldsToBody: true });
 
 fastify.register(require("./routes/entities/answer/private"), {
   prefix: "/api/entities/answers",
@@ -37,6 +37,9 @@ fastify.register(require("./routes/entities/image/private"), {
   prefix: "/api/entities/images",
 });
 fastify.register(require("./routes/entities/image/public"), {
+  prefix: "/api/entities/images",
+});
+fastify.register(require("./routes/entities/image/authMultiPart"), {
   prefix: "/api/entities/images",
 });
 fastify.register(require("./routes/entities/post/public"), {
