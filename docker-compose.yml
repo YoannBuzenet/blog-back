@@ -9,6 +9,8 @@ services:
         - ./docker/mysql/database:/var/lib/mysql # Database
       restart: always
       env_file: .env.local
+      ports: 
+        - 3306:3306
 
   phpmyadmin:
       image: phpmyadmin:5
