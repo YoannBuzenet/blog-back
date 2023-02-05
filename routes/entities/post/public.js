@@ -42,16 +42,23 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
 
-      const { like } = req.query;
+      const { like, language } = req.query;
 
       let post;
+      let filters = {}
+
+      if(language){
+        filters.language = language;
+      }
+
       try {
         if(like){
+          filters.title = {[Op.like]: `%${req.params.title}%`};
 
           post = await db.Post.findAll({
             where: {
-              title: {[Op.like]: `%${req.params.title}%`,
-            }},
+              ...filters
+            },
             // include: {
             //   model: db.Post,
             //   as: "Sibling",
@@ -59,9 +66,11 @@ module.exports = function (fastify, opts, done) {
           });
         }
         else{
+          filters.title = req.params.title;
+
           await db.Post.findOne({
             where: {
-              title: req.params.title,
+              ...filters
             },
             include: {
               model: db.Post,
