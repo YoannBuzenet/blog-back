@@ -27,7 +27,7 @@ module.exports = function (fastify, opts, done) {
     {
       schema: {
         body: {
-          // required: ["UserId", "token", "provider"],
+          required: ["UserId", "token", "provider"],
           type: "object",
           properties: {
             UserId: { type: "number" },
@@ -57,7 +57,7 @@ module.exports = function (fastify, opts, done) {
           if(!Array.isArray(siblingToAdd)){
             siblingToAdd = [siblingToAdd]
           }
-          post.setSibling(siblingToAdd)
+          await post.setSibling(siblingToAdd);
         }
 
         const savedPost = await post.save();
@@ -76,24 +76,24 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          required: [
-            "title",
-            "shortDescription",
-            "content",
-            "metaDescription",
-            "UserId",
-            "token",
-            "provider",
-          ],
-          properties: {
-            title: { type: "string" },
-            shortDescription: { type: "string" },
-            content: { type: "string" },
-            UserId: { type: "integer" },
-            metaDescription: { type: "string" },
-            token: { type: "string" },
-            provider: { type: "string" },
-          },
+          // required: [
+          //   "title",
+          //   "shortDescription",
+          //   "content",
+          //   "metaDescription",
+          //   "UserId",
+          //   "token",
+          //   "provider",
+          // ],
+          // properties: {
+          //   title: { type: "string" },
+          //   shortDescription: { type: "string" },
+          //   content: { type: "string" },
+          //   UserId: { type: "integer" },
+          //   metaDescription: { type: "string" },
+          //   token: { type: "string" },
+          //   provider: { type: "string" },
+          // },
         },
       },
     },
@@ -105,11 +105,20 @@ module.exports = function (fastify, opts, done) {
           mainImageUrl: req.body.mainImageUrl,
           metaDescription: req.body.metaDescription,
           isScoop: req.body.isScoop,
+          isPublished: req.body.isPublished,
           content: req.body.content,
           UserId: req.body.UserId,
         };
 
         const savedPost = await db.Post.create(newPost);
+
+        if(req.body.Sibling){
+          let siblingToAdd = req.body.Sibling;
+          if(!Array.isArray(siblingToAdd)){
+            siblingToAdd = [siblingToAdd]
+          }
+          await savedPost.setSibling(siblingToAdd);
+        }
 
         reply.code(200).send(savedPost);
         return;
