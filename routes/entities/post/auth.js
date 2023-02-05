@@ -2,25 +2,25 @@ const { logger } = require("../../../logger");
 const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
-  // fastify.addHook("preHandler", (request, reply, done) => {
+  fastify.addHook("preHandler", (request, reply, done) => {
 
-  //   console.log('TEST', request);
-  //   console.log('TEST', request.body);
-  //   const { UserId, token, provider } = request.body;
+    console.log('TEST', request);
+    console.log('TEST', request.body);
+    const { UserId, token, provider } = request.body;
 
-  //   if (!token || !provider || !UserId) {
-  //     reply.code(400).send("Bad Request.");
-  //     return;
-  //   }
+    if (!token || !provider || !UserId) {
+      reply.code(400).send("Bad Request.");
+      return;
+    }
 
-  //   const isUserLogged = db.User.isAuthenticated(UserId, token, provider);
+    const isUserLogged = db.User.isAuthenticated(UserId, token, provider);
 
-  //   if (!isUserLogged) {
-  //     reply.code(401).send("Unauthorized");
-  //     return;
-  //   }
-  //   done();
-  // });
+    if (!isUserLogged) {
+      reply.code(401).send("Unauthorized");
+      return;
+    }
+    done();
+  });
 
   fastify.put(
     "/:id",
@@ -76,24 +76,24 @@ module.exports = function (fastify, opts, done) {
       schema: {
         body: {
           type: "object",
-          // required: [
-          //   "title",
-          //   "shortDescription",
-          //   "content",
-          //   "metaDescription",
-          //   "UserId",
-          //   "token",
-          //   "provider",
-          // ],
-          // properties: {
-          //   title: { type: "string" },
-          //   shortDescription: { type: "string" },
-          //   content: { type: "string" },
-          //   UserId: { type: "integer" },
-          //   metaDescription: { type: "string" },
-          //   token: { type: "string" },
-          //   provider: { type: "string" },
-          // },
+          required: [
+            "title",
+            "shortDescription",
+            "content",
+            "metaDescription",
+            "UserId",
+            "token",
+            "provider",
+          ],
+          properties: {
+            title: { type: "string" },
+            shortDescription: { type: "string" },
+            content: { type: "string" },
+            UserId: { type: "integer" },
+            metaDescription: { type: "string" },
+            token: { type: "string" },
+            provider: { type: "string" },
+          },
         },
       },
     },
