@@ -1,35 +1,33 @@
-const path = require("path");
-const { MAX_PAGINATION } = require("../../../config/consts");
 const { logger } = require("../../../logger");
 const db = require("../../../models/index");
 
 module.exports = function (fastify, opts, done) {
-  fastify.addHook("preHandler", (request, reply, done) => {
+  // fastify.addHook("preHandler", (request, reply, done) => {
 
-    console.log('TEST', request);
-    console.log('TEST', request.body);
-    const { UserId, token, provider } = request.body;
+  //   console.log('TEST', request);
+  //   console.log('TEST', request.body);
+  //   const { UserId, token, provider } = request.body;
 
-    if (!token || !provider || !UserId) {
-      reply.code(400).send("Bad Request.");
-      return;
-    }
+  //   if (!token || !provider || !UserId) {
+  //     reply.code(400).send("Bad Request.");
+  //     return;
+  //   }
 
-    const isUserLogged = db.User.isAuthenticated(UserId, token, provider);
+  //   const isUserLogged = db.User.isAuthenticated(UserId, token, provider);
 
-    if (!isUserLogged) {
-      reply.code(401).send("Unauthorized");
-      return;
-    }
-    done();
-  });
+  //   if (!isUserLogged) {
+  //     reply.code(401).send("Unauthorized");
+  //     return;
+  //   }
+  //   done();
+  // });
 
   fastify.put(
     "/:id",
     {
       schema: {
         body: {
-          required: ["UserId", "token", "provider"],
+          // required: ["UserId", "token", "provider"],
           type: "object",
           properties: {
             UserId: { type: "number" },
@@ -52,12 +50,22 @@ module.exports = function (fastify, opts, done) {
           post[prop] = req.body[prop];
         }
 
+
+        // ManyToMany
+        if(req.body.Sibling){
+          let siblingToAdd = req.body.Sibling;
+          if(!Array.isArray(siblingToAdd)){
+            siblingToAdd = [siblingToAdd]
+          }
+          post.setSibling(siblingToAdd)
+        }
+
         const savedPost = await post.save();
 
         reply.code(200).send(savedPost);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching forPost : " + e);
+        logger.log("error", "Error while searching for Post : " + e);
         reply.code(500).send("Error when editing a post");
       }
     }

@@ -7,6 +7,7 @@ module.exports = function (fastify, opts, done) {
   fastify.addHook("preHandler", (request, reply, done) => {
     const isRequestAuthorized = isComingFromBlog(request.headers);
 
+
     if (!isRequestAuthorized) {
       reply.code(401).send("Unauthorized");
       return;
@@ -29,6 +30,7 @@ module.exports = function (fastify, opts, done) {
       },
     },
     async (req, reply) => {
+
       // This endpoint is coded to work with google auth only for now.
       if (req.body.provider === "google") {
         // Checking if user already exists

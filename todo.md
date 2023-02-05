@@ -1,1 +1,7 @@
-1. Passer l'app en ts (on doit pouvoir gérer le check d'auth par endpoint avec des annotations ts mais ... bon chance)
+# TODO
+
+- Blocks limit to X elements in all GET endpoints of entities to force pagination
+
+### later
+
+- App in ts
