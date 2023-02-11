@@ -57,6 +57,7 @@ module.exports = function (fastify, opts, done) {
           if(!Array.isArray(siblingToAdd)){
             siblingToAdd = [siblingToAdd]
           }
+          siblingToAdd = siblingToAdd.map(sibling => sibling.id)
           await post.setSibling(siblingToAdd);
         }
 
@@ -117,6 +118,7 @@ module.exports = function (fastify, opts, done) {
           if(!Array.isArray(siblingToAdd)){
             siblingToAdd = [siblingToAdd]
           }
+          siblingToAdd = siblingToAdd.map(sibling => sibling.id)
           await savedPost.setSibling(siblingToAdd);
         }
 
