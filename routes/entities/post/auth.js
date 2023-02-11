@@ -63,10 +63,20 @@ module.exports = function (fastify, opts, done) {
 
         const savedPost = await post.save();
 
-        reply.code(200).send(savedPost);
+        const updatedPost = await db.Post.findOne({
+          where: {
+            id: req.params.id,
+          },
+          include: {
+            model: db.Post,
+            as: "Sibling",
+          },
+        });
+
+        reply.code(200).send(updatedPost);
         return;
       } catch (e) {
-        logger.log("error", "Error while searching for Post : " + e);
+        logger.log("error", "Error while editing for Post : " + e);
         reply.code(500).send("Error when editing a post");
       }
     }
@@ -114,7 +124,13 @@ module.exports = function (fastify, opts, done) {
         const savedPost = await db.Post.create(newPost);
 
         if(req.body.Sibling){
-          let siblingToAdd = JSON.parse(req.body.Sibling);
+          let siblingToAdd;
+          try{
+            siblingToAdd = JSON.parse(req.body.Sibling);
+          }
+          catch(e){
+            console.error('Couldnt parse siblings when posting a post')
+          }
           if(!Array.isArray(siblingToAdd)){
             siblingToAdd = [siblingToAdd]
           }
@@ -122,7 +138,18 @@ module.exports = function (fastify, opts, done) {
           await savedPost.setSibling(siblingToAdd);
         }
 
-        reply.code(200).send(savedPost);
+        const updatedPost = await db.Post.findOne({
+          where: {
+            id: savedPost.dataValues.id,
+          },
+          include: {
+            model: db.Post,
+            as: "Sibling",
+          },
+        });
+
+
+        reply.code(200).send(updatedPost);
         return;
       } catch (e) {
         logger.log("error", "Error while creating a Post :" + e);
