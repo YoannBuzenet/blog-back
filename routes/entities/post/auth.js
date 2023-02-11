@@ -53,11 +53,11 @@ module.exports = function (fastify, opts, done) {
 
         // ManyToMany
         if(req.body.Sibling){
-          let siblingToAdd = req.body.Sibling;
+          let siblingToAdd = JSON.parse(req.body.Sibling);
           if(!Array.isArray(siblingToAdd)){
             siblingToAdd = [siblingToAdd]
           }
-          siblingToAdd = siblingToAdd.map(sibling => sibling.id)
+          siblingToAdd = siblingToAdd.map(sibling => sibling.id);
           await post.setSibling(siblingToAdd);
         }
 
@@ -114,7 +114,7 @@ module.exports = function (fastify, opts, done) {
         const savedPost = await db.Post.create(newPost);
 
         if(req.body.Sibling){
-          let siblingToAdd = req.body.Sibling;
+          let siblingToAdd = JSON.parse(req.body.Sibling);
           if(!Array.isArray(siblingToAdd)){
             siblingToAdd = [siblingToAdd]
           }
