@@ -37,6 +37,11 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+      isOutOfPostFeed: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       UserId: {
         type: Sequelize.INTEGER,
         references: {

@@ -45,6 +45,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      // Certains posts ne doivent pas remonter (car ils servent de content page ailleurs par exemple)
+      isOutOfPostFeed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       content: {
         type: DataTypes.STRING,
         allowNull: false,

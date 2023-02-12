@@ -45,6 +45,9 @@ module.exports = function (fastify, opts, done) {
 
         // On omet les posts ispublished : false
           filters.where.isPublished = true;
+        // On omet les posts fait pour d'autres usages que le feed
+          filters.where.isOutOfPostFeed = false;
+
 
         const posts = await db.Post.findAll(filters);
 
