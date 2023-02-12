@@ -43,6 +43,9 @@ module.exports = function (fastify, opts, done) {
           filters.where = { language: language };
         }
 
+        // On omet les posts ispublished : false
+          filters.where.isPublished = true;
+
         const posts = await db.Post.findAll(filters);
 
         reply.code(200).send(posts);

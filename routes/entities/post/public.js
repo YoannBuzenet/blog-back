@@ -14,6 +14,8 @@ module.exports = function (fastify, opts, done) {
         const post = await db.Post.findOne({
           where: {
             id: req.params.id,
+             // On omet les posts ispublished : false
+             isPublished : true
           },
           include: {
             model: db.Post,
@@ -50,6 +52,9 @@ module.exports = function (fastify, opts, done) {
       if(language){
         filters.language = language;
       }
+
+      // On omet les posts ispublished : false
+      filters.isPublished = true;
 
       try {
         if(like){

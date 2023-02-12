@@ -63,6 +63,7 @@ module.exports = function (fastify, opts, done) {
 
         const savedPost = await post.save();
 
+        // Pour avoir les siblings dans le retour, on fait la requete complete
         const updatedPost = await db.Post.findOne({
           where: {
             id: req.params.id,
@@ -138,6 +139,7 @@ module.exports = function (fastify, opts, done) {
           await savedPost.setSibling(siblingToAdd);
         }
 
+        // Pour avoir les siblings dans le retour, on fait la requete complete
         const updatedPost = await db.Post.findOne({
           where: {
             id: savedPost.dataValues.id,
