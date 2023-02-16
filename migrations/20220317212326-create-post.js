@@ -13,6 +13,11 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      url: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
       shortDescription: {
         type: Sequelize.STRING,
         allowNull: false,

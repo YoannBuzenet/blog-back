@@ -110,5 +110,54 @@ module.exports = function (fastify, opts, done) {
     }
   );
 
+  fastify.get(
+    "/url/:url",
+    {
+      schema: {},
+    },
+    async (req, reply) => {
+
+      const {url} = req.params
+
+      let post;
+      let filters = {}
+
+      // On omet les posts ispublished : false
+      filters.isPublished = true;
+
+
+      try {
+        
+          filters.url = url;
+
+          post = await db.Post.findOne({
+            where: {
+              ...filters
+            },
+            include: {
+              model: db.Post,
+              as: "Sibling",
+            },
+          });
+        
+
+        if (post) {
+          reply.code(200).send(post);
+        } else {
+          reply.code(404).send("Post par url non trouvé.");
+        }
+
+      } catch (error) {
+        logger.log(
+          "error",
+          "Error while searching for one Post by url :" + error
+        );
+        reply.code(500).send(error);
+      }
+
+      return;
+    }
+  );
+
   done();
 };
