@@ -96,9 +96,11 @@ module.exports = function (fastify, opts, done) {
             "UserId",
             "token",
             "provider",
+            "url"
           ],
           properties: {
             title: { type: "string" },
+            url: { type: "string" },
             shortDescription: { type: "string" },
             content: { type: "string" },
             UserId: { type: "integer" },
@@ -113,6 +115,7 @@ module.exports = function (fastify, opts, done) {
       try {
         const newPost = {
           title: req.body.title,
+          url: req.body.url,
           shortDescription: req.body.shortDescription,
           mainImageUrl: req.body.mainImageUrl,
           metaDescription: req.body.metaDescription,

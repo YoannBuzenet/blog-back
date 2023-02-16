@@ -1,0 +1,7 @@
+const createURLFromString = (string) => {
+return string.replace(/\s+/g, '-').toLowerCase();
+}
+
+module.exports = {
+    createURLFromString
+}

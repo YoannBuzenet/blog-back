@@ -1,6 +1,7 @@
 const { logger } = require("../../../logger");
 const db = require("../../../models/index");
 const Sequelize = require('sequelize');
+const { formatSimple } = require("../../../services/react-slate");
 const Op = Sequelize.Op;
 
 module.exports = function (fastify, opts, done) {
@@ -46,6 +47,9 @@ module.exports = function (fastify, opts, done) {
 
       const { like, language } = req.query;
 
+      const {title} = req.params
+      const decodedTitle = decodeURI(title)
+
       let post;
       let filters = {}
 
@@ -56,9 +60,10 @@ module.exports = function (fastify, opts, done) {
       // On omet les posts ispublished : false
       filters.isPublished = true;
 
+
       try {
-        if(like){
-          filters.title = {[Op.like]: `%${req.params.title}%`};
+        if(like === "true"){
+          filters.title = {[Op.like]: `%${decodedTitle}%`};
 
           post = await db.Post.findAll({
             where: {
@@ -71,9 +76,12 @@ module.exports = function (fastify, opts, done) {
           });
         }
         else{
-          filters.title = req.params.title;
+          filters.title = {[Op.like]: `%${decodedTitle}%`};
 
-          await db.Post.findOne({
+          // Obligé de rechercher avec "like" sinon, vu que sequelize escape chaque quote du string du titre au format react-slate, il n'arrive plus à faire matcher
+          // Car en base, ce n'est pas échappé
+
+          post = await db.Post.findOne({
             where: {
               ...filters
             },
