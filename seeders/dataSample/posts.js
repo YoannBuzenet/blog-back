@@ -2,6 +2,6 @@ const sampleContent = `[{"type":"paragraph","align":"center","children":[{"text"
 
 const sampleMetaDescription = `[{"type":"paragraph","children":[{"text":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis in diam enim. Vivamus consectetur nulla vel lorem tempor commodo. Interdum et malesuada fames ac ante ipsum primis in faucibus."}]}]`;
 
-const sampleUrl = `[{"type":"paragraph","children":[{"text":"/public/images/ohOui.webp"}]}]`;
+const sampleUrl = `[{"type":"paragraph","children":[{"text":"public/images/ohOui.webp"}]}]`;
 
 module.exports = { sampleContent, sampleMetaDescription, sampleUrl };

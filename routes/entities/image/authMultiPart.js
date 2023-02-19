@@ -10,6 +10,7 @@ const {
 } = require("../../../config/consts");
 const { FRENCH_LOCALE } = require("../../../i18n/consts");
 const fs = require("fs");
+const { slugify } = require("../../../services/utils");
 
 module.exports = function (fastify, opts, done) {
   
@@ -74,11 +75,13 @@ module.exports = function (fastify, opts, done) {
 
       const buf = await data.image.toBuffer();
 
+      const imageNameEncoded = slugify(data.name.value);
+
       try {
         //  edit and save the file
         let pathImage = path.join(
           FOLDER_IMAGE,
-          `${data.name.value}.${DEFAULT_FORMAT_IMAGE}`
+          `${imageNameEncoded}.${DEFAULT_FORMAT_IMAGE}`
         );
         const didCropImage = await cropImage(
           buf,
@@ -86,7 +89,7 @@ module.exports = function (fastify, opts, done) {
           data.y.value,
           data.width.value,
           data.height.value,
-          data.name.value,
+          imageNameEncoded,
           DEFAULT_FORMAT_IMAGE
         );
 
@@ -95,7 +98,7 @@ module.exports = function (fastify, opts, done) {
 
           // if it worked, save the image record
           const newImage = {
-            name: `${data.name.value}.${DEFAULT_FORMAT_IMAGE}`,
+            name: `${imageNameEncoded}.${DEFAULT_FORMAT_IMAGE}`,
             credits: data?.credits?.value,
             language: data?.language?.value || FRENCH_LOCALE,
             path: pathImage,
@@ -110,8 +113,8 @@ module.exports = function (fastify, opts, done) {
             if (Array.isArray(tags)) {
               for (let i = 0; i < tags.length; i++) {
                 //A new tag holds the prop isNewTag
-                if (tags[i].isNewTag) {
-                  const tag = await db.Tag.create(tags[i]);
+                if (tags[i].__isNew__) {
+                  const tag = await db.Tag.create({name : tags[i].label, language: data?.language?.value || FRENCH_LOCALE});
                   arrayOfTagsID = [...arrayOfTagsID, tag.dataValues.id];
                 } else {
                   arrayOfTagsID = [...arrayOfTagsID, tags[i].id];
@@ -134,7 +137,7 @@ module.exports = function (fastify, opts, done) {
 
         return;
       } catch (e) {
-        logger.log("error", "Error while creating a Image :" + e);
+        logger.log("error", "Error while creating a Image :" + e + e.stack);
         reply.code(500).send("Error when creating a image");
       }
       return;

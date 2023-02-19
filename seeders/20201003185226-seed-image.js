@@ -8,7 +8,7 @@ module.exports = {
       [
         {
           name: "ohOui.webp",
-          path: "/public/images/ohOui.webp",
+          path: "public/images/ohOui.webp",
           language: ENGLISH_LOCALE,
           credits: "Test Credits",
           createdAt: new Date(),
