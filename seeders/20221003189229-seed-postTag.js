@@ -38,6 +38,42 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          post_id: 11,
+          tag_id: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          post_id: 6,
+          tag_id: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          post_id: 6,
+          tag_id: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          post_id: 11,
+          tag_id: 4,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          post_id: 12,
+          tag_id: 2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          post_id: 12,
+          tag_id: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
