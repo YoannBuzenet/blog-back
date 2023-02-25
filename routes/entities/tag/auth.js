@@ -84,6 +84,7 @@ module.exports = function (fastify, opts, done) {
         const newTag = {
           name: req.body.name,
           language: req.body.language,
+          color_hexcode: req.body?.color_hexcode
         };
 
         const savedTag = await db.Tag.create(newTag);
