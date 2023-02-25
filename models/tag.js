@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      color_hexcode: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: generateRandomHexcode(),
+      },
     },
     {
       sequelize,

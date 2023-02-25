@@ -12,6 +12,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      color_hexcode: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       language: {
         type: Sequelize.STRING,
         allowNull: false,
