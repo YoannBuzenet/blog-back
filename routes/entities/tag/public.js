@@ -13,7 +13,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
       try {
-        const { sortBy, limit, language = ENGLISH_LOCALE } = req.query;
+        const { sortBy, limit, language } = req.query;
 
         // On récupère toutes les propriétés du modèle pour filtrer les éventuels filtres reçus en query param
         const allPropertiesFromTag = Object.keys(db.Tag.rawAttributes);
@@ -31,7 +31,9 @@ module.exports = function (fastify, opts, done) {
         }
 
         filters.where = {};
-        filters.where.language = language;
+        if(language){
+          filters.where.language = language;
+        }
 
         const tag = await db.Tag.findAll(filters);
 
