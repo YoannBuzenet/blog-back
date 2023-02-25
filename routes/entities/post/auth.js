@@ -68,10 +68,12 @@ module.exports = function (fastify, opts, done) {
           where: {
             id: req.params.id,
           },
-          include: {
+          include: [{
             model: db.Post,
             as: "Sibling",
-          },
+          }, {
+            model : db.Tag,
+          }],
         });
 
         reply.code(200).send(updatedPost);

@@ -18,10 +18,12 @@ module.exports = function (fastify, opts, done) {
              // On omet les posts ispublished : false
              isPublished : true
           },
-          include: {
+          include: [{
             model: db.Post,
             as: "Sibling",
-          },
+          }, {
+            model : db.Tag,
+          }],
         });
         if (post) {
           reply.code(200).send(post);
@@ -85,10 +87,12 @@ module.exports = function (fastify, opts, done) {
             where: {
               ...filters
             },
-            include: {
+            include: [{
               model: db.Post,
               as: "Sibling",
-            },
+            }, {
+              model : db.Tag,
+            }],
           });
         }
 
@@ -134,10 +138,12 @@ module.exports = function (fastify, opts, done) {
             where: {
               ...filters
             },
-            include: {
+            include: [{
               model: db.Post,
               as: "Sibling",
-            },
+            }, {
+              model : db.Tag,
+            }],
           });
         
 

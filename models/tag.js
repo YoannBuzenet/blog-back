@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { generateRandomHexcode } = require("../services/utils");
 module.exports = (sequelize, DataTypes) => {
   class Tag extends Model {
     /**

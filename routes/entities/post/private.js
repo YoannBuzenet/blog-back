@@ -48,6 +48,13 @@ module.exports = function (fastify, opts, done) {
         // On omet les posts fait pour d'autres usages que le feed
           filters.where.isOutOfPostFeed = false;
 
+          filters.include = [{
+            model: db.Post,
+            as: "Sibling",
+          }, {
+            model : db.Tag,
+          }]
+
 
         const posts = await db.Post.findAll(filters);
 
