@@ -33,6 +33,7 @@ module.exports = function (fastify, opts, done) {
             name: { type: "string" },
             language: { type: "string" },
             UserId: { type: "string" },
+            usedFor : {type: "string"},
             token: { type: "string" },
             provider: { type: "string" },
           },
@@ -73,6 +74,7 @@ module.exports = function (fastify, opts, done) {
             name: { type: "string" },
             language: { type: "string" },
             UserId: { type: "string" },
+            usedFor : {type: "string"},
             token: { type: "string" },
             provider: { type: "string" },
           },
@@ -84,7 +86,8 @@ module.exports = function (fastify, opts, done) {
         const newTag = {
           name: req.body.name,
           language: req.body.language,
-          color_hexcode: req.body?.color_hexcode
+          color_hexcode: req.body?.color_hexcode,
+          usedFor: req.body?.usedFor
         };
 
         const savedTag = await db.Tag.create(newTag);
