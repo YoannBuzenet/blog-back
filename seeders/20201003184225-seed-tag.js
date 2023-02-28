@@ -11,6 +11,7 @@ module.exports = {
         {
           name: "Tag de test",
           language: FRENCH_LOCALE,
+          usedFor : "image",
           color_hexcode : generateRandomHexcode(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -18,6 +19,7 @@ module.exports = {
         {
           name: "Sociologie",
           language: ENGLISH_LOCALE,
+          usedFor : "post",
           color_hexcode : generateRandomHexcode(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -25,6 +27,7 @@ module.exports = {
         {
           name: "Tech",
           language: ENGLISH_LOCALE,
+          usedFor : "post",
           color_hexcode : generateRandomHexcode(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -32,6 +35,7 @@ module.exports = {
         {
           name: "Philosophie",
           language: FRENCH_LOCALE,
+          usedFor : "image",
           color_hexcode : generateRandomHexcode(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -39,6 +43,7 @@ module.exports = {
         {
           name: "Economie",
           language: FRENCH_LOCALE,
+          usedFor : "image",
           color_hexcode : generateRandomHexcode(),
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -47,6 +52,7 @@ module.exports = {
           name: "Banner",
           color_hexcode : generateRandomHexcode(),
           language: "All",
+          usedFor : "post",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

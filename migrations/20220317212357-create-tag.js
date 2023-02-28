@@ -16,6 +16,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      usedFor: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       language: {
         type: Sequelize.STRING,
         allowNull: false,

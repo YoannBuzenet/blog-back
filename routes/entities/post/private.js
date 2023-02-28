@@ -39,6 +39,8 @@ module.exports = function (fastify, opts, done) {
           filters.limit = MAX_PAGINATION;
         }
 
+        filters.where = {}
+
         if (language) {
           filters.where = { language: language };
         }

@@ -41,6 +41,17 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: generateRandomHexcode(),
       },
+      usedFor: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "image",
+        validate: {
+          isIn: {
+            args: [["image", "post"]],
+            msg: "Value must be 'image' or 'post'.",
+          },
+        },
+      },
     },
     {
       sequelize,
