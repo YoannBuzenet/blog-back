@@ -2,6 +2,7 @@ const { logger } = require("../../../logger");
 const db = require("../../../models/index");
 const Sequelize = require('sequelize');
 const { formatSimple } = require("../../../services/react-slate");
+const { buildFilterFromPossibleArrayQueryParam } = require("../../../services/parsing");
 const Op = Sequelize.Op;
 
 module.exports = function (fastify, opts, done) {
@@ -15,14 +16,14 @@ module.exports = function (fastify, opts, done) {
         const post = await db.Post.findOne({
           where: {
             id: req.params.id,
-             // On omet les posts ispublished : false
-             isPublished : true
+            // On omet les posts ispublished : false
+            isPublished: true
           },
           include: [{
             model: db.Post,
             as: "Sibling",
           }, {
-            model : db.Tag,
+            model: db.Tag,
           }],
         });
         if (post) {
@@ -39,7 +40,7 @@ module.exports = function (fastify, opts, done) {
     }
   );
 
- 
+
   fastify.get(
     "/title/:title",
     {
@@ -49,13 +50,13 @@ module.exports = function (fastify, opts, done) {
 
       const { like, language } = req.query;
 
-      const {title} = req.params
+      const { title } = req.params
       const decodedTitle = decodeURI(title)
 
       let post;
       let filters = {}
 
-      if(language){
+      if (language) {
         filters.language = language;
       }
 
@@ -64,8 +65,8 @@ module.exports = function (fastify, opts, done) {
 
 
       try {
-        if(like === "true"){
-          filters.title = {[Op.like]: `%${decodedTitle}%`};
+        if (like === "true") {
+          filters.title = { [Op.like]: `%${decodedTitle}%` };
 
           post = await db.Post.findAll({
             where: {
@@ -77,8 +78,8 @@ module.exports = function (fastify, opts, done) {
             // },
           });
         }
-        else{
-          filters.title = {[Op.like]: `%${decodedTitle}%`};
+        else {
+          filters.title = { [Op.like]: `%${decodedTitle}%` };
 
           // Obligé de rechercher avec "like" sinon, vu que sequelize escape chaque quote du string du titre au format react-slate, il n'arrive plus à faire matcher
           // Car en base, ce n'est pas échappé
@@ -91,7 +92,7 @@ module.exports = function (fastify, opts, done) {
               model: db.Post,
               as: "Sibling",
             }, {
-              model : db.Tag,
+              model: db.Tag,
             }],
           });
         }
@@ -121,7 +122,7 @@ module.exports = function (fastify, opts, done) {
     },
     async (req, reply) => {
 
-      const {url} = req.params
+      const { url } = req.params
 
       let post;
       let filters = {}
@@ -131,26 +132,76 @@ module.exports = function (fastify, opts, done) {
 
 
       try {
-        
-          filters.url = url;
 
-          post = await db.Post.findOne({
-            where: {
-              ...filters
-            },
-            include: [{
-              model: db.Post,
-              as: "Sibling",
-            }, {
-              model : db.Tag,
-            }],
-          });
-        
+        filters.url = url;
+
+        post = await db.Post.findOne({
+          where: {
+            ...filters
+          },
+          include: [{
+            model: db.Post,
+            as: "Sibling",
+          }, {
+            model: db.Tag,
+          }],
+        });
+
 
         if (post) {
           reply.code(200).send(post);
         } else {
           reply.code(404).send("Post par url non trouvé.");
+        }
+
+      } catch (error) {
+        logger.log(
+          "error",
+          "Error while searching for one Post by url :" + error
+        );
+        reply.code(500).send(error);
+      }
+
+      return;
+    }
+  );
+
+  fastify.get(
+    "/tags",
+    {
+      schema: {},
+    },
+    async (req, reply) => {
+
+      const { tags } = req.query;
+
+
+      let post;
+      let filters = {}
+
+      // On omet les posts ispublished : false
+      filters.isPublished = true;
+
+      const tagFilter = buildFilterFromPossibleArrayQueryParam(tags, 'name', Op)
+
+
+      try {
+
+        post = await db.Post.findAll({
+          where: {
+            ...filters
+          },
+          include: [{
+            model: db.Tag,
+            where: tagFilter
+          }],
+        });
+
+
+        if (post) {
+          reply.code(200).send(post);
+        } else {
+          reply.code(404).send("Post par Tag non trouvé.");
         }
 
       } catch (error) {
