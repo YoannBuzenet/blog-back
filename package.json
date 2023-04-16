@@ -13,6 +13,8 @@
     "reset:db:dev:seed": "export NODE_ENV=development& sequelize db:create && npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all --debug",
   
     "dev:start": "npx pm2 --name backend start index.js --watch && npm run stack:start",
+    "dev:stop": "npx pm2 stop all && pm2 del all && npm run stack:stop",
+    
 
     "stack:start" : "docker-compose up -d",
     "stack:stop" : "docker-compose down"
